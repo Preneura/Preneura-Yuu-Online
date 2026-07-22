@@ -1,3 +1,4 @@
+import { Async } from "../Async";
 import { Quaternion } from "../Basic Types/Quaternion";
 import { Vector3 } from "../Basic Types/Vector3";
 import { Entity } from "../Entity";
@@ -25,20 +26,22 @@ function playAudioGlobal(filePath: string, options: Partial<PlayAudioOptions>) {
 }
 
 
-function playAudioAtPosInternal(filePath: string, pos: Vector3, options: Partial<PlayAudioOptions>, isSpatial: boolean) {
+async function playAudioAtPosInternal(filePath: string, pos: Vector3, options: Partial<PlayAudioOptions>, isSpatial: boolean) {
   const musicEntity = new Entity(pos, Quaternion.one, Vector3.one, undefined, 'Empty');
-  const audioID = Godot.node.create.audio(musicEntity.nodeID ?? -1, isSpatial);
 
-  if (audioID) {
-    const didSet = Godot.node.audio.stream.setFromFilePath(audioID, filePath);
+  musicEntity.audio.createFromFilePath(filePath, isSpatial);
 
-    if (didSet) {
-      Godot.node.audio.volume.set(audioID,  options.volume ?? -6);
-      Godot.node.audio.pitch.set(audioID,  options.pitch ?? 1);
-      Godot.node.audio.maxDistance.set(audioID, options.maxDistance ?? 16);
-      Godot.node.audio.unitSize.set(audioID, options.unitSize ?? 5);
-    
-      Godot.node.audio.playFromStart(audioID);
-    }
+  musicEntity.audio.volume.set(options.volume ?? 0.86);
+  musicEntity.audio.pitch.set(options.pitch ?? 1);
+  musicEntity.audio.maxDistance.set(options.maxDistance ?? 16);
+  musicEntity.audio.unitSize.set(options.unitSize ?? 5);
+
+  musicEntity.audio.play();
+
+  await Async.wait(1_000);
+  while (musicEntity.audio.isPlaying()) {
+    await Async.wait(1_000);
   }
+
+  musicEntity.destroy();
 }

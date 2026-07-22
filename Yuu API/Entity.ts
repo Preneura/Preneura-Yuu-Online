@@ -232,6 +232,7 @@ export class Entity {
       this.childNodeIDs = [];
       this.mesh.nodeID = undefined;
       this.collider.nodeID = undefined;
+      this.audio.nodeID = undefined;
       this.triggerMeshEntity = undefined;
       this.texture = undefined;
       entity_Data.triggerMap.delete(this.nodeID ?? -1);
@@ -671,6 +672,10 @@ export class Entity {
       if (this.nodeID) {
         if (this.audio.nodeID === undefined) {
           this.audio.nodeID = Godot.node.create.audio(this.nodeID, isSpatial);
+
+          if (this.audio.nodeID) {
+            this.childNodeIDs.push(this.audio.nodeID);
+          }
         }
 
         if (this.audio.nodeID) {
@@ -687,6 +692,10 @@ export class Entity {
       if (this.nodeID) {
         if (this.audio.nodeID === undefined) {
           this.audio.nodeID = Godot.node.create.audio(this.nodeID, isSpatial);
+
+          if (this.audio.nodeID) {
+            this.childNodeIDs.push(this.audio.nodeID);
+          }
         }
 
         if (this.audio.nodeID) {
@@ -804,28 +813,28 @@ export class Entity {
     },
 
     spatial: {
-        /**
-         * Set the audio to be spatial or global, the audio must be created first.
-         * @param isSpatial determines if the audio is heard "spatially" from a position in the world, false is "global"
-         */
-        set: (isSpatial: boolean) => {
-          if (this.audio.nodeID) {
-            Godot.node.audio.spatial.set(this.audio.nodeID, isSpatial);
-          }
-        },
-  
-        /**
-         * @returns true if the audio exists and is set to spatial
-         */
-        get: (): boolean => {
-          if (this.audio.nodeID) {
-            return Godot.node.audio.spatial.get(this.audio.nodeID) ?? false;
-          }
-          else {
-            return false;
-          }
-        },
+      /**
+       * Set the audio to be spatial or global, the audio must be created first.
+       * @param isSpatial determines if the audio is heard "spatially" from a position in the world, false is "global"
+       */
+      set: (isSpatial: boolean) => {
+        if (this.audio.nodeID) {
+          Godot.node.audio.spatial.set(this.audio.nodeID, isSpatial);
+        }
       },
+
+      /**
+       * @returns true if the audio exists and is set to spatial
+       */
+      get: (): boolean => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.spatial.get(this.audio.nodeID) ?? false;
+        }
+        else {
+          return false;
+        }
+      },
+    },
 
     maxDistance: {
       /**
@@ -925,7 +934,7 @@ export class Entity {
             Godot.node.audio.emissionAngle.enabled.set(this.audio.nodeID, isEnabled);
           }
         },
-  
+
         /**
          * Returns false if the audio does not exist
          * @returns true if the emissionAngle is enabled
@@ -949,7 +958,7 @@ export class Entity {
             Godot.node.audio.emissionAngle.degrees.set(this.audio.nodeID, Math.max(0, degrees));
           }
         },
-  
+
         /**
          * Returns -1 if the audio does not exist
          * @returns the degrees of the audio
@@ -977,7 +986,7 @@ export class Entity {
             Godot.node.audio.emissionAngle.filter.set(this.audio.nodeID, -effectDb);
           }
         },
-  
+
         /**
          * Returns -1 if the audio does not exist
          * @returns the effectStrength of the filter (ranges from 0 to 1)
@@ -990,7 +999,7 @@ export class Entity {
               return (-effectDb / 80);
             }
           }
-          
+
           return -1;
         },
       },
