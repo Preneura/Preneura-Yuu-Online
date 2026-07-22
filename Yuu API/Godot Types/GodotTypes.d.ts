@@ -462,6 +462,14 @@ declare namespace Godot {
        * @returns the id of the created node
        */
       text: (parentID: number, text: string, fontSize: number, outlineSize: number) => number | undefined;
+
+      /**
+       * Creates an audio node
+       * @param parentID to host the audio (for spatial audio this parent will determine the position)
+       * @param isSpatial if true the audio exists in 3D space (too many of these playing simultaneously will cause problems)
+       * @returns the id of the created node
+       */
+      audio: (parentID: number, isSpatial: boolean) => number | undefined;
     };
 
     /**
@@ -687,6 +695,159 @@ declare namespace Godot {
       billboard: {
         set: (id: number, isEnabled: boolean) => boolean,
         get: (id: number) => boolean | undefined,
+      },
+    };
+
+    audio: {
+      /**
+       * A stream must be set to play audio
+       */
+      stream: {
+        setFromFilePath: (id: number, filePath: string) => boolean,
+        setFromByteArray: (id: number, byteArray: Uint8Array | Int16Array, is16Bit: boolean) => boolean,
+      },
+
+      isPlaying: (id: number) => boolean,
+
+      playFromStart: (id: number) => boolean,
+      playFromPosInSeconds: (id: number, posInSeconds: number) => boolean,
+
+      pause: (id: number) => boolean,
+      resume: (id: number) => boolean,
+      stop: (id: number) => boolean,
+
+      currentPosInSeconds: {
+        set: (id: number, posInSeconds: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      volume: {
+        set: (id: number, volume: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Default is 1, under 1 reduces the pitch, 0 is invalid
+       * Above 1 increases the pitch
+       */
+      pitch: {
+        set: (id: number, pitch: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Spatial audio plays from the position of the node, non spatial
+       * sounds like "global" audio in the users ears
+       */
+      spatial: {
+        set: (id: number, isSpatial: boolean) => boolean,
+        get: (id: number) => boolean | undefined,
+      },
+
+      /**
+       * Sets the max distance the audio can be heard at
+       * NOTE: this does not change the volume fall off rate (unitSize does that)
+       * 
+       * In general you likely want to adjust the unitSize in tandem
+       */
+      maxDistance: {
+        set: (id: number, maxDistance: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the volume fall off (it feels like changing the distance at which the audio is heard)
+       * The smaller the unitSize, the faster the volume decreases, larger sizes extend the volume to greater distances
+       * You can think of the volume going down at each unit distance (ie. 1m vs 5m)
+       * 
+       * In general you likely want to adjust the maxDistance in tandem
+       * Though if you want a very hard volume fall off at the maxDistance, keeping unitSize large and shrinking maxDistance
+       * can create the effect of being outside a building, and when you go in you can hear the audio loud again
+       */
+      unitSize: {
+        set: (id: number, unitSize: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * This adjusts how much spatial direction is perceived by the listener.
+       * Eg. if you set the value to 1 and face your left ear at the audio source,
+       * you will hear the audio at the intended volume in your left ear, but the right
+       * ear will hear nothing. The default value is 0.95 (this makes it 100% in left ear,
+       * 5% in right ear in the previous example). Setting to 0 makes it so both
+       * ears hear the volume the same. This creates a global sound where only the
+       * volume increase / decrease indicates that the audio is spatial. Not recommended
+       * for most cases as it makes the audio not feel spatial but still takes the extra
+       * processing power compared to non spatial "global" audio.
+       * 
+       * NOTE: has no effect on non spatial audio
+       */
+      panning: {
+        set: (id: number, panning: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the angle that the audio can be heard from, is off by default,
+       * needs to be enabled and degrees set to be used.
+       */
+      emissionAngle: {
+        enabled: {
+          set: (id: number, enabled: boolean) => boolean,
+          get: (id: number) => boolean | undefined,
+        },
+        degrees: {
+          set: (id: number, degrees: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+
+        /**
+         * Decibel effect applied to the out of range area, the muffling effect.
+         * 
+         * Defaults to -24, values range from -80 to 0.
+         */
+        filter: {
+          set: (id: number, db: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+      },
+
+      /**
+       * Adjust the max number of times the audio can play over itself.
+       * Useful for rapid sounds, eg. a projectile launch sfx.
+       * 
+       * Imagine setting to 4, you call playFromStart every 100ms, once 4 launch effects are already playing,
+       * and you call playFromStart again, the first is stopped, and a new playback is started.
+       * 
+       * NOTE: because spatial audio allows for moving the audio playback position,
+       * this does not work well for sfx played at multiple positions simultaneously.
+       * In that case you will want to create multiple audio nodes (eg. a pool / array).
+       * 
+       * Defaults to 1, setting higher does make the play-pause APIs not work as intended
+       */
+      maxConcurrent: {
+        set: (id: number, maxConcurrent: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Allows you to set what bus the audio is played from
+       * 
+       * Eg. a "echo" audio bus could add reverb, etc.
+       * 
+       * NOTE: there is currently no way to create custom busses, and only "Master" exists
+       */
+      bus: {
+        set: (id: number, bus: string) => boolean,
+        get: (id: number) => string | undefined,
+      },
+
+      // We do not currently have a way to create a new Area3D Layer (or the ability to assign an audio bus to it)
+      // But once we do, this could allow you to make sounds heard/played (not sure) have an effect applied
+      // As an example a cathedral could sound echoey, or underwater could sound garbled
+      areaMask: {
+        set: (id: number, areaMaskID: number) => boolean,
+        get: (id: number) => number | undefined,
       },
     };
 

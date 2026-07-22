@@ -660,6 +660,384 @@ export class Entity {
     this.scale = this.scale;
   }
 
+  audio = {
+    nodeID: undefined as number | undefined,
+
+    /**
+     * Initializes audio nodeID if one doesn't exist, and sets the audio stream.
+     * Replaces previous stream if audio is already initialized.
+     */
+    createFromFilePath: (filePath: string, isSpatial: boolean) => {
+      if (this.nodeID) {
+        if (this.audio.nodeID === undefined) {
+          this.audio.nodeID = Godot.node.create.audio(this.nodeID, isSpatial);
+        }
+
+        if (this.audio.nodeID) {
+          Godot.node.audio.stream.setFromFilePath(this.audio.nodeID, filePath);
+        }
+      }
+    },
+
+    /**
+     * Initializes audio nodeID if one doesn't exist, and sets the audio stream.
+     * Replaces previous stream if audio is already initialized.
+     */
+    createFromByteArray: (byteArray: Uint8Array<ArrayBufferLike> | Int16Array<ArrayBufferLike>, isSpatial: boolean) => {
+      if (this.nodeID) {
+        if (this.audio.nodeID === undefined) {
+          this.audio.nodeID = Godot.node.create.audio(this.nodeID, isSpatial);
+        }
+
+        if (this.audio.nodeID) {
+          Godot.node.audio.stream.setFromByteArray(this.audio.nodeID, byteArray, (byteArray instanceof Int16Array));
+        }
+      }
+    },
+
+    isPlaying: (): boolean => {
+      if (this.audio.nodeID === undefined) {
+        return false;
+      }
+      else {
+        return Godot.node.audio.isPlaying(this.audio.nodeID);
+      }
+    },
+
+    play: (fromPosInSeconds: number = 0) => {
+      if (this.audio.nodeID) {
+        if (fromPosInSeconds === 0) {
+          Godot.node.audio.playFromStart(this.audio.nodeID);
+        }
+        else {
+          Godot.node.audio.playFromPosInSeconds(this.audio.nodeID, fromPosInSeconds);
+        }
+      }
+    },
+
+    pause: () => { if (this.audio.nodeID) { Godot.node.audio.pause(this.audio.nodeID); } },
+    resume: () => { if (this.audio.nodeID) { Godot.node.audio.resume(this.audio.nodeID); } },
+    stop: () => { if (this.audio.nodeID) { Godot.node.audio.stop(this.audio.nodeID); } },
+
+    currentPosInSeconds: {
+      /**
+       * Set the current position into the audio in seconds. The audio must be created first.
+       * @param posInSeconds into the audio to go to
+       */
+      set: (posInSeconds: number) => {
+        if (this.audio.nodeID) {
+          Godot.node.audio.currentPosInSeconds.set(this.audio.nodeID, posInSeconds);
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns currentPosInSeconds into the audio playback
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.currentPosInSeconds.get(this.audio.nodeID) ?? -1;
+        }
+        else {
+          return -1;
+        }
+      },
+    },
+
+    volume: {
+      /**
+       * Set the volume of the audio, audio must be created first
+       * @param volume with values ranging from 0 to 1
+       */
+      set: (volume: number) => {
+        if (this.audio.nodeID) {
+          const decibelsUp = Math.min(1, Math.max(0, volume)) * 86;
+
+          Godot.node.audio.volume.set(this.audio.nodeID, -80 + decibelsUp);
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns volume of the audio normalized from 0 to 1
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          const db = Godot.node.audio.volume.get(this.audio.nodeID);
+
+          if (db) {
+            return (db + 80) / 86;
+          }
+        }
+
+        return -1;
+      },
+    },
+
+    pitch: {
+      /**
+       * Set the current pitch, the audio must be created first.
+       * @param pitch below 1 is lower, 1 is normal, above 1 is higher. Values at 0 and lower are invalid.
+       */
+      set: (pitch: number) => {
+        if (this.audio.nodeID) {
+          const usedPitch = Math.min(16, Math.max(0, pitch));
+
+          if (usedPitch !== 0) {
+            Godot.node.audio.pitch.set(this.audio.nodeID, usedPitch);
+          }
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns pitch of the audio
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.pitch.get(this.audio.nodeID) ?? -1;
+        }
+        else {
+          return -1;
+        }
+      },
+    },
+
+    spatial: {
+        /**
+         * Set the audio to be spatial or global, the audio must be created first.
+         * @param isSpatial determines if the audio is heard "spatially" from a position in the world, false is "global"
+         */
+        set: (isSpatial: boolean) => {
+          if (this.audio.nodeID) {
+            Godot.node.audio.spatial.set(this.audio.nodeID, isSpatial);
+          }
+        },
+  
+        /**
+         * @returns true if the audio exists and is set to spatial
+         */
+        get: (): boolean => {
+          if (this.audio.nodeID) {
+            return Godot.node.audio.spatial.get(this.audio.nodeID) ?? false;
+          }
+          else {
+            return false;
+          }
+        },
+      },
+
+    maxDistance: {
+      /**
+       * Set the max distance that the audio can be heard, the audio must be created first, only affects spatial audio.
+       * @param maxDistance in meters that the audio can be heard
+       * 
+       * NOTE: maxDistance does not adjust the volume fall off / fade, use unitSize for this
+       */
+      set: (maxDistance: number) => {
+        if (this.audio.nodeID) {
+          Godot.node.audio.maxDistance.set(this.audio.nodeID, maxDistance);
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns max distance that the audio can be heard in meters
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.maxDistance.get(this.audio.nodeID) ?? -1;
+        }
+        else {
+          return -1;
+        }
+      },
+    },
+
+    unitSize: {
+      /**
+       * Set the unit size for the audio, the audio must be created first, only affects spatial audio.
+       * @param unitSize is the distance in meters at which the volume is halved. Eg. 5 => 50% volume at 5m, 25% at 10m, 12.5% at 15m.
+       * NOTE: this is multiplied against the starting volume, so if it was at 0.8 (80%) to start, the values above would be 40%, 20%, 10%.
+       * 
+       * This allows you to adjust how quickly the volume fades out,
+       * tldr: lower numbers make the volume fade over shorter distances, larger numbers keep it loud for longer.
+       *
+       * NOTE: unitSize does not adjust the maxDistance, you will likely want to set this as well
+       */
+      set: (unitSize: number) => {
+        if (this.audio.nodeID) {
+          Godot.node.audio.unitSize.set(this.audio.nodeID, unitSize);
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns the unit size of the audio
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.unitSize.get(this.audio.nodeID) ?? -1;
+        }
+        else {
+          return -1;
+        }
+      },
+    },
+
+    panning: {
+      /**
+       * Set the panning for the audio, the audio must be created first, only affects spatial audio.
+       * @param panning adjusts how much spatial direction is perceived by the listener. Eg. if you set the value to 1 and face your left ear at the audio source,
+       * you will hear the audio at the intended volume in your left ear, but the right ear will hear nothing. The default value is 0.95 (this makes it 100% in left ear,
+       * 5% in right ear in the previous example). Setting to 0 makes it so both ears hear the volume the same. This creates a global sound where only the
+       * volume increase / decrease indicates that the audio is spatial. Not recommended for most cases as it makes the audio not feel spatial but still takes the extra
+       * processing power compared to non spatial "global" audio.
+       */
+      set: (panning: number) => {
+        if (this.audio.nodeID) {
+          Godot.node.audio.panning.set(this.audio.nodeID, Math.max(0, panning));
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns the panning of the audio
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.panning.get(this.audio.nodeID) ?? -1;
+        }
+        else {
+          return -1;
+        }
+      },
+    },
+
+    emissionAngle: {
+      enabled: {
+        /**
+         * Set the emissionAngle is enabled property for the audio, the audio must be created first, only affects spatial audio.
+         * @param isEnabled determines if the emission angle degrees is used (disabled by default)
+         */
+        set: (isEnabled: boolean) => {
+          if (this.audio.nodeID) {
+            Godot.node.audio.emissionAngle.enabled.set(this.audio.nodeID, isEnabled);
+          }
+        },
+  
+        /**
+         * Returns false if the audio does not exist
+         * @returns true if the emissionAngle is enabled
+         */
+        get: (): boolean => {
+          if (this.audio.nodeID) {
+            return Godot.node.audio.emissionAngle.enabled.get(this.audio.nodeID) ?? false;
+          }
+          else {
+            return false;
+          }
+        },
+      },
+      degrees: {
+        /**
+         * Set the degrees for the audio, will need to have emissionAngle enabled, the audio must be created first, and only affects spatial audio.
+         * @param degrees of the angle that the audio can be heard from
+         */
+        set: (degrees: number) => {
+          if (this.audio.nodeID) {
+            Godot.node.audio.emissionAngle.degrees.set(this.audio.nodeID, Math.max(0, degrees));
+          }
+        },
+  
+        /**
+         * Returns -1 if the audio does not exist
+         * @returns the degrees of the audio
+         */
+        get: (): number => {
+          if (this.audio.nodeID) {
+            return Godot.node.audio.emissionAngle.degrees.get(this.audio.nodeID) ?? -1;
+          }
+          else {
+            return -1;
+          }
+        },
+      },
+      filter: {
+        /**
+         * Set the filter for the emission angle, will need to have emissionAngle enabled, the audio must be created first, and only affects spatial audio.
+         * @param effectStrength values range from 0 (no effect), to 1 (maximum). Where 1 is the most muffled. Defaults to 0.3.
+         * 
+         * The filter makes the out of range region sound muffled, ie. as if the audio is facing the other direction (or is heard through a wall)
+         */
+        set: (effectStrength: number) => {
+          if (this.audio.nodeID) {
+            const effectDb = 80 * Math.min(1, Math.max(0, effectStrength));
+
+            Godot.node.audio.emissionAngle.filter.set(this.audio.nodeID, -effectDb);
+          }
+        },
+  
+        /**
+         * Returns -1 if the audio does not exist
+         * @returns the effectStrength of the filter (ranges from 0 to 1)
+         */
+        get: (): number => {
+          if (this.audio.nodeID) {
+            const effectDb = Godot.node.audio.emissionAngle.filter.get(this.audio.nodeID);
+
+            if (effectDb) {
+              return (-effectDb / 80);
+            }
+          }
+          
+          return -1;
+        },
+      },
+    },
+
+    maxConcurrent: {
+      /**
+       * Set the maxConcurrent for this audio, the audio must be created first.
+       * @param maxConcurrent adjusts how many overlapping audio playbacks can be heard of this specific audio entity.
+       * 
+       * Useful for rapid sounds, eg. a projectile launch sfx, imagine setting to 4, you call `audio.play` every 100ms, once 4 launch effects are already playing, and you call play again, the first is stopped, and a new playback is started.
+       * 
+       * NOTE: because spatial audio allows for moving the audio playback position, this does not work well for sfx played at multiple positions simultaneously.
+       * In that case you will want to create multiple audio entities (eg. a pool / array). You can also use the PlayAudio.atPos API for a quick, but less optimized approach.
+       * 
+       * Defaults to 1, setting higher does make the play-pause APIs not work as intended
+       */
+      set: (maxConcurrent: number) => {
+        if (this.audio.nodeID) {
+          Godot.node.audio.maxConcurrent.set(this.audio.nodeID, Math.max(1, maxConcurrent));
+        }
+      },
+
+      /**
+       * Returns -1 if the audio does not exist
+       * @returns the maxConcurrent of the audio
+       */
+      get: (): number => {
+        if (this.audio.nodeID) {
+          return Godot.node.audio.maxConcurrent.get(this.audio.nodeID) ?? -1;
+        }
+        else {
+          return -1;
+        }
+      },
+    },
+
+    // In the future we can add bus and audio mask (requires the ability to create audio busses and Area3Ds)
+
+    destroy: () => {
+      if (this.nodeID) {
+        destroy(this.audio.nodeID, this.childNodeIDs);
+        this.audio.nodeID = undefined;
+      }
+    },
+  }
+
   private triggerMeshEntity: Entity | undefined;
 
   trigger = {
@@ -683,7 +1061,7 @@ export class Entity {
           }
         }
       },
-      
+
       /**
        * Get whether or not a trigger can detect this entity
        * @returns boolean true if triggers can detect this entity
