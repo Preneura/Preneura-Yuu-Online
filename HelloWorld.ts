@@ -294,21 +294,49 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
     enterButton.mesh.color.set(
     new Color(0.15, 0.15, 0.18),
     1
-);
+    );
 
-enterButtonText.text.display.set(
-    "WELCOME"
-);
+    enterButtonText.text.display.set(
+        "WELCOME"
+    );
 
-    const orangeParticles =
-        DefaultParticles.getColoredWaterFountainParticlesProperties(
+    welcomeText.visible.set(true);
+        
+    const welcomeText = new Entity(
+        new Vector3(0, 1.65, -6.58),
+        Quaternion.one,
+        new Vector3(0.10, 0.10, 0.10),
+        undefined,
+        "Static"
+    );
+
+    welcomeText.text.create(
+        "WELCOME TO METAVERSE INSPIRED",
+        20,
+        1
+    );
+
+    welcomeText.text.color.set(
+        new Color(1, 0.25, 0)
+    );
+
+    welcomeText.text.outline.color.set(
+        new Color(0, 0, 0)
+    );
+
+    welcomeText.text.doubleSided.set(true);
+
+    welcomeText.visible.set(false);
+
+        const orangeParticles =
+            DefaultParticles.getColoredWaterFountainParticlesProperties(
             new Color(1, 0.25, 0)
-        );
+    );
 
-    PlayParticles.atPosForDuration(
-        new Vector3(0, 0.5, -5.8),
-        orangeParticles,
-        3000
+        PlayParticles.atPosForDuration(
+            new Vector3(0, 0.5, -5.8),
+            orangeParticles,
+            3000
     );
 });
 }
