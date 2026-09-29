@@ -15,11 +15,11 @@ function start() {
     console.log("Welcome to Yuu Online!");
 
 SkyDome.skyMaterial.setProceduralSkyMaterial(
-    new Color(0.002, 0.004, 0.015), // Near-black upper sky
-    new Color(0.025, 0.015, 0.07),  // Deep blue-purple horizon
+    new Color(0.002, 0.004, 0.015),
+    new Color(0.025, 0.015, 0.07),
     0.35,
-    new Color(0.003, 0.003, 0.008), // Near-black below
-    new Color(0.12, 0.025, 0.008),  // Very subtle orange-red horizon
+    new Color(0.003, 0.003, 0.008),
+    new Color(0.12, 0.025, 0.008), 
     0.25
 );
 
@@ -264,30 +264,29 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
         undefined
     );
 
-    // Enter button label
-const enterButtonText = new Entity(
-    new Vector3(0, 1.15, -6.58),
-    Quaternion.one,
-    new Vector3(0.10, 0.10, 0.10),
-    undefined,
-    "Static"
-);
+    const enterButtonText = new Entity(
+        new Vector3(0, 1.15, -6.58),
+        Quaternion.one,
+        new Vector3(0.10, 0.10, 0.10),
+        undefined,
+        "Static"
+    );
 
-enterButtonText.text.create(
-    "ENTER THE METAVERSE",
-    20,
-    1
-);
+    enterButtonText.text.create(
+        "ENTER THE METAVERSE",
+        20,
+        1
+    );
 
-enterButtonText.text.color.set(
-    new Color(0.02, 0.02, 0.025)
-);
+    enterButtonText.text.color.set(
+        new Color(0.02, 0.02, 0.025)
+    );
 
-enterButtonText.text.doubleSided.set(true);
+    enterButtonText.text.doubleSided.set(true);
 
-        enterButton.rayClick.initialize(false);
+    enterButton.rayClick.initialize(false);
 
-        enterButton.rayClick.setClickFunction(() => {
+    enterButton.rayClick.setClickFunction(() => {
         console.log("Welcome to Metaverse Inspired!");
     });
 }
