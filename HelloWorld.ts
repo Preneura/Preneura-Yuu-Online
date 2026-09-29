@@ -163,98 +163,110 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
         undefined
     );
 
-spawnPrimitive.cube(
-    new Vector3(0, 3.91, 0.65),
-    new Vector3(6.72, 0.04, 0.08),
-    Quaternion.one,
-    new Color(1, 0.25, 0),
-    1,
-    false,
-    "Static",
-    undefined
-);
+    spawnPrimitive.cube(
+        new Vector3(0, 3.91, 0.65),
+        new Vector3(6.72, 0.04, 0.08),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
 
-    // Back feature wall
-spawnPrimitive.cube(
-    new Vector3(0, 2.25, -6.82),
-    new Vector3(7.8, 4, 0.12),
-    Quaternion.one,
-    new Color(0.015, 0.015, 0.025),
-    1,
-    true,
-    "Static",
-    undefined
-);
-    // Feature wall orange border - left
-spawnPrimitive.cube(
-    new Vector3(-3.35, 2.25, -6.74),
-    new Vector3(0.035, 3.55, 0.04),
-    Quaternion.one,
-    new Color(1, 0.25, 0),
-    1,
-    false,
-    "Static",
-    undefined
-);
+    spawnPrimitive.cube(
+        new Vector3(0, 2.25, -6.82),
+        new Vector3(7.8, 4, 0.12),
+        Quaternion.one,
+        new Color(0.015, 0.015, 0.025),
+        1,
+        true,
+        "Static",
+        undefined
+    );
 
-// Feature wall orange border - right
-spawnPrimitive.cube(
-    new Vector3(3.35, 2.25, -6.74),
-    new Vector3(0.035, 3.55, 0.04),
-    Quaternion.one,
-    new Color(1, 0.25, 0),
-    1,
-    false,
-    "Static",
-    undefined
-);
+    spawnPrimitive.cube(
+        new Vector3(-3.35, 2.25, -6.74),
+        new Vector3(0.035, 3.55, 0.04),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
 
-// Feature wall orange border - top
-spawnPrimitive.cube(
-    new Vector3(0, 4.01, -6.74),
-    new Vector3(6.735, 0.035, 0.04),
-    Quaternion.one,
-    new Color(1, 0.25, 0),
-    1,
-    false,
-    "Static",
-    undefined
-);
+    spawnPrimitive.cube(
+        new Vector3(3.35, 2.25, -6.74),
+        new Vector3(0.035, 3.55, 0.04),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
 
-// Feature wall orange border - bottom
-spawnPrimitive.cube(
-    new Vector3(0, 0.49, -6.74),
-    new Vector3(6.735, 0.035, 0.04),
-    Quaternion.one,
-    new Color(1, 0.25, 0),
-    1,
-    false,
-    "Static",
-    undefined
-);
+    spawnPrimitive.cube(
+        new Vector3(0, 4.01, -6.74),
+        new Vector3(6.735, 0.035, 0.04),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(0, 0.49, -6.74),
+        new Vector3(6.735, 0.035, 0.04),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
     
-    // Metaverse Inspired back-wall text test
-const brandText = new Entity(
-    new Vector3(0, 2.2, -6.75),
-    Quaternion.one,
-    new Vector3(0.70, 0.70, 0.70),
-    undefined,
-    "Static"
-);
+    const brandText = new Entity(
+        new Vector3(0, 2.2, -6.75),
+        Quaternion.one,
+        new Vector3(0.70, 0.70, 0.70),
+        undefined,
+        "Static"
+    );
 
-brandText.text.create(
-    "METAVERSE INSPIRED",
-    60,
-    2
-);
+    brandText.text.create(
+        "METAVERSE INSPIRED",
+        60,
+        2
+    );
 
-brandText.text.color.set(
-    new Color(1, 0.25, 0)
-);
+    brandText.text.color.set(
+        new Color(1, 0.25, 0)
+    );
 
-brandText.text.outline.color.set(
-    new Color(0, 0, 0)
-);
+    brandText.text.outline.color.set(
+        new Color(0, 0, 0)
+    );
 
-brandText.text.doubleSided.set(true);
+    brandText.text.doubleSided.set(true);
+
+    const enterButton = spawnPrimitive.cube(
+        new Vector3(0, 1.15, -6.65),
+        new Vector3(2.4, 0.45, 0.12),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        true,
+        "Static",
+        undefined
+    );
+
+        enterButton.rayClick.initialize(false);
+
+        enterButton.rayClick.setClickFunction(() => {
+        console.log("Welcome to Metaverse Inspired!");
+    });
 }
