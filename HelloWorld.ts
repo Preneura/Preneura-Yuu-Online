@@ -11,17 +11,6 @@ function start() {
     inWorldConsole.visible(true, new Vector3(0, 1.5, -1.5));
 
     console.log("Welcome to Yuu Online!");
-
-    spawnPrimitive.cube(
-        new Vector3(0, 0.5, -3),
-        new Vector3(1, 1, 1),
-        Quaternion.one,
-        new Color(1, 0.4, 0),
-        1,
-        true,
-        "Static",
-        undefined
-    );
     
     spawnPrimitive.cube(
         new Vector3(0, 0.10, -3),
@@ -68,8 +57,8 @@ function start() {
     );
 
     spawnPrimitive.cube(
-        new Vector3(-3.78, 0.42, -3),
-        new Vector3(0.06, 0.12, 7.6),
+        new Vector3(-3.78, 0.36, -3),
+        new Vector3(0.06, 0.6, 7.6),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -79,8 +68,8 @@ function start() {
     );
 
     spawnPrimitive.cube(
-        new Vector3(3.78, 0.42, -3),
-        new Vector3(0.06, 0.12, 7.6),
+        new Vector3(3.78, 0.36, -3),
+        new Vector3(0.06, 0.6, 7.6),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -90,8 +79,74 @@ function start() {
     );
 
     spawnPrimitive.cube(
-        new Vector3(0, 0.42, -6.78),
-        new Vector3(7.6, 0.12, 0.06),
+        new Vector3(0, 0.36, -6.78),
+        new Vector3(7.6, 0.6, 0.06),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(-3.65, 2.25, 0.65),
+        new Vector3(0.5, 4, 0.5),
+        Quaternion.one,
+        new Color(0.03, 0.03, 0.04),
+        1,
+        true,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(3.65, 2.25, 0.65),
+        new Vector3(0.5, 4, 0.5),
+        Quaternion.one,
+        new Color(0.03, 0.03, 0.04),
+        1,
+        true,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(0, 4.15, 0.65),
+        new Vector3(7.8, 0.4, 0.5),
+        Quaternion.one,
+        new Color(0.03, 0.03, 0.04),
+        1,
+        true,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(-3.36, 2.25, 0.65),
+        new Vector3(0.08, 3.6, 0.54),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(3.36, 2.25, 0.65),
+        new Vector3(0.08, 3.6, 0.54),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(0, 3.91, 0.65),
+        new Vector3(6.65, 0.08, 0.54),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
