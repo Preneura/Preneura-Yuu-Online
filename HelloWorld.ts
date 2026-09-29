@@ -14,12 +14,12 @@ function start() {
     console.log("Welcome to Yuu Online!");
 
 SkyDome.skyMaterial.setProceduralSkyMaterial(
-    new Color(0.005, 0.005, 0.02),  // Top - almost black with a hint of blue
-    new Color(0.04, 0.015, 0.06),   // Upper horizon - dark purple
-    0.15,
-    new Color(0.005, 0.005, 0.01),  // Bottom - near black
-    new Color(0.08, 0.025, 0.015),   // Lower horizon - subtle warm/orange tint
-    0.10
+    new Color(0.002, 0.004, 0.015), // Near-black upper sky
+    new Color(0.025, 0.015, 0.07),  // Deep blue-purple horizon
+    0.35,
+    new Color(0.003, 0.003, 0.008), // Near-black below
+    new Color(0.12, 0.025, 0.008),  // Very subtle orange-red horizon
+    0.25
 );
 
 SkyDome.ambientLight.baseColor.set(
