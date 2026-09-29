@@ -268,7 +268,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 const enterButtonText = new Entity(
     new Vector3(0, 1.15, -6.58),
     Quaternion.one,
-    new Vector3(0.20, 0.20, 0.20),
+    new Vector3(0.05, 0.05, 0.05),
     undefined,
     "Static"
 );
