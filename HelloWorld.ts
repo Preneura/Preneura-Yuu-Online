@@ -24,7 +24,7 @@ function start() {
     );
     
     spawnPrimitive.cube(
-        new Vector3(0, -0.15, -3),
+        new Vector3(0, 0.10, -3),
         new Vector3(8, 0.3, 8),
         Quaternion.one,
         new Color(0.05, 0.05, 0.07),
