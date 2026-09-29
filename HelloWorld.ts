@@ -291,6 +291,15 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
     enterButton.rayClick.setClickFunction(() => {
     console.log("Welcome to Metaverse Inspired!");
 
+    enterButton.mesh.color.set(
+    new Color(0.15, 0.15, 0.18),
+    1
+);
+
+enterButtonText.text.display.set(
+    "WELCOME"
+);
+
     const orangeParticles =
         DefaultParticles.getColoredWaterFountainParticlesProperties(
             new Color(1, 0.25, 0)
