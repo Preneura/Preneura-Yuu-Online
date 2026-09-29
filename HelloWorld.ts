@@ -177,7 +177,7 @@ spawnPrimitive.cube(
     // Back feature wall
 spawnPrimitive.cube(
     new Vector3(0, 2.25, -6.82),
-    new Vector3(7.2, 4, 0.12),
+    new Vector3(7.8, 4, 0.12),
     Quaternion.one,
     new Color(0.015, 0.015, 0.025),
     1,
