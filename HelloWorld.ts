@@ -264,6 +264,27 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
         undefined
     );
 
+    // Enter button label
+const enterButtonText = new Entity(
+    new Vector3(0, 1.15, -6.58),
+    Quaternion.one,
+    new Vector3(0.20, 0.20, 0.20),
+    undefined,
+    "Static"
+);
+
+enterButtonText.text.create(
+    "ENTER THE METAVERSE",
+    40,
+    1
+);
+
+enterButtonText.text.color.set(
+    new Color(0.02, 0.02, 0.025)
+);
+
+enterButtonText.text.doubleSided.set(true);
+
         enterButton.rayClick.initialize(false);
 
         enterButton.rayClick.setClickFunction(() => {
