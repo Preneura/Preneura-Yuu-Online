@@ -6,6 +6,8 @@ import { registerStart } from "./Yuu API/RegisterStart";
 import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 import { SkyDome } from "./Yuu API/SkyDome";
 import { Entity } from "./Yuu API/Entity";
+import { DefaultParticles } from "./Yuu API/Particles/DefaultParticles";
+import { PlayParticles } from "./Yuu API/Particles/PlayParticles";
 
 registerStart(start);
 
@@ -287,6 +289,17 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
     enterButton.rayClick.initialize(false);
 
     enterButton.rayClick.setClickFunction(() => {
-        console.log("Welcome to Metaverse Inspired!");
-    });
+    console.log("Welcome to Metaverse Inspired!");
+
+    const orangeParticles =
+        DefaultParticles.getColoredWaterFountainParticlesProperties(
+            new Color(1, 0.25, 0)
+        );
+
+    PlayParticles.atPosForDuration(
+        new Vector3(0, 0.5, -5.8),
+        orangeParticles,
+        3000
+    );
+});
 }
