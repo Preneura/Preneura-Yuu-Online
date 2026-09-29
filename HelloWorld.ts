@@ -66,4 +66,37 @@ function start() {
         "Static",
         undefined
     );
+
+    spawnPrimitive.cube(
+        new Vector3(-3.78, 0.42, -3),
+        new Vector3(0.06, 0.12, 7.6),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(3.78, 0.42, -3),
+        new Vector3(0.06, 0.12, 7.6),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    spawnPrimitive.cube(
+        new Vector3(0, 0.42, -6.78),
+        new Vector3(7.6, 0.12, 0.06),
+        Quaternion.one,
+        new Color(1, 0.25, 0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
 }
