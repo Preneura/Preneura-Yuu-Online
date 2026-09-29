@@ -5,6 +5,7 @@ import { inWorldConsole } from "./Yuu API/Console";
 import { registerStart } from "./Yuu API/RegisterStart";
 import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 import { SkyDome } from "./Yuu API/SkyDome";
+import { Entity } from "./Yuu API/Entity";
 
 registerStart(start);
 
@@ -162,8 +163,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
         undefined
     );
 
-    // Top orange entrance accent
-const topOrangeEntrance = spawnPrimitive.cube(
+spawnPrimitive.cube(
     new Vector3(0, 3.91, 0.65),
     new Vector3(6.72, 0.04, 0.08),
     Quaternion.one,
@@ -173,11 +173,28 @@ const topOrangeEntrance = spawnPrimitive.cube(
     "Static",
     undefined
 );
-
-// Neon emission test
-topOrangeEntrance.material.emissionColor.set(
-    new Color(1, 0.12, 0)
+    // Metaverse Inspired back-wall text test
+const brandText = new Entity(
+    new Vector3(0, 2.2, -6.75),
+    Quaternion.one,
+    Vector3.one,
+    undefined,
+    "Static"
 );
 
-topOrangeEntrance.material.emissionStrength.set(3);
+brandText.text.create(
+    "METAVERSE INSPIRED",
+    80,
+    2
+);
+
+brandText.text.color.set(
+    new Color(1, 0.25, 0)
+);
+
+brandText.text.outline.color.set(
+    new Color(0, 0, 0)
+);
+
+brandText.text.doubleSided.set(true);
 }
