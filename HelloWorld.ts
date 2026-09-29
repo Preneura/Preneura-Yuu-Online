@@ -173,6 +173,19 @@ spawnPrimitive.cube(
     "Static",
     undefined
 );
+
+    // Back feature wall
+spawnPrimitive.cube(
+    new Vector3(0, 2.25, -6.82),
+    new Vector3(7.2, 4, 0.12),
+    Quaternion.one,
+    new Color(0.015, 0.015, 0.025),
+    1,
+    true,
+    "Static",
+    undefined
+);
+    
     // Metaverse Inspired back-wall text test
 const brandText = new Entity(
     new Vector3(0, 2.2, -6.75),
