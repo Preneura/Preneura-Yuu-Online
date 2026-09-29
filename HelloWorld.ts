@@ -162,14 +162,22 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
         undefined
     );
 
-    spawnPrimitive.cube(
-        new Vector3(0, 3.91, 0.65),
-        new Vector3(6.72, 0.04, 0.08),
-        Quaternion.one,
-        new Color(1, 0.25, 0),
-        1,
-        false,
-        "Static",
-        undefined
-    );
+    // Top orange entrance accent
+const topOrangeEntrance = spawnPrimitive.cube(
+    new Vector3(0, 3.91, 0.65),
+    new Vector3(6.72, 0.04, 0.08),
+    Quaternion.one,
+    new Color(1, 0.25, 0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+// Neon emission test
+topOrangeEntrance.material.emissionColor.set(
+    new Color(1, 0.12, 0)
+);
+
+topOrangeEntrance.material.emissionStrength.set(3);
 }
