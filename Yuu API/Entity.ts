@@ -7,6 +7,7 @@ import { RayHit } from "./Raycast";
 import { Texture } from "./Texture";
 import { spawnPrimitive } from "./SpawnPrimitive";
 import { entity_Data, OccupiedTriggerPayload, OnUpdatePayload, WhatCanTrigger } from "./Entity_Data";
+import { ParticlesProperties } from "./Particles/DefaultParticles";
 
 
 /**
@@ -452,6 +453,35 @@ export class Entity {
           return entity_Data.paintableEntities.includes(this.nodeID ?? -1);
         },
       },
+    },
+
+    /**
+     * Shader code is not safely implemented, use this feature with caution.
+     */
+    shader: {
+      set: (shaderCode: string) => {
+        if (this.mesh.nodeID) {
+          Godot.shader.applyToMesh(this.mesh.nodeID, shaderCode);
+        }
+      },
+
+      updateNumber: (parameterName: string, value: number) => {
+        if (this.mesh.nodeID) {
+          Godot.shader.updateNumber(this.mesh.nodeID, parameterName, value);
+        }
+      },
+
+      updateColor: (parameterName: string, color: Color) => {
+        if (this.mesh.nodeID) {
+          Godot.shader.updateColor(this.mesh.nodeID, parameterName, color.r, color.g, color.b);
+        }
+      },
+
+      remove: () => {
+        if (this.mesh.nodeID) {
+          Godot.shader.removeFromMesh(this.mesh.nodeID);
+        }
+      }
     },
 
     material: {
@@ -1043,6 +1073,170 @@ export class Entity {
       if (this.nodeID) {
         destroy(this.audio.nodeID, this.childNodeIDs);
         this.audio.nodeID = undefined;
+      }
+    },
+  }
+
+  // !! ** !! recently copy-pasted, needs a lot of rework !! ** !!
+  particles = {
+    nodeID: undefined as number | undefined,
+
+    /**
+     * Initializes the particles with default values if not already initialized
+     */
+    initialize: () => {
+      if (this.nodeID) {
+        if (this.particles.nodeID === undefined) {
+          this.particles.nodeID = Godot.node.create.particles(this.nodeID);
+
+          if (this.particles.nodeID) {
+            Godot.node.particles.initialize(this.particles.nodeID);
+          
+            this.childNodeIDs.push(this.particles.nodeID);
+          }
+        }
+      }
+    },
+
+    /**
+     * Sets the particles properties, initializes particles if not already initialized.
+     * @param properties to be applied, only fill out what you need to change
+     */
+    setParticlesProperties: (properties: Partial<ParticlesProperties>) => {
+      if (this.nodeID) {
+        this.particles.initialize();
+
+        if (this.particles.nodeID) {
+          if (properties.mesh?.mesh.nodeID) {
+            Godot.node.particles.mesh.set(this.particles.nodeID, properties.mesh.mesh.nodeID);
+          }
+
+          if (properties.emissionShape) {
+            Godot.node.particles.shape.set(this.particles.nodeID, properties.emissionShape);
+          }
+
+          if (properties.emissionShapeProperties?.sphereRadius) {
+            Godot.node.particles.shape.sphere.radius.set(this.particles.nodeID, properties.emissionShapeProperties.sphereRadius);
+          }
+
+          if (properties.emissionShapeProperties?.boxExtents) {
+            Godot.node.particles.shape.box.extents.set(this.particles.nodeID, properties.emissionShapeProperties.boxExtents.x, properties.emissionShapeProperties.boxExtents.y, properties.emissionShapeProperties.boxExtents.z);
+          }
+
+          if (properties.emissionShapeProperties?.ring) {
+            const ring = properties.emissionShapeProperties?.ring;
+
+            if (ring.axis) {
+              Godot.node.particles.shape.ring.axis.set(this.particles.nodeID, ring.axis.x, ring.axis.y, ring.axis.z);
+            }
+
+            if (ring.coneAngle) {
+              Godot.node.particles.shape.ring.coneAngle.set(this.particles.nodeID, ring.coneAngle);
+            }
+
+            if (ring.height) {
+              Godot.node.particles.shape.ring.height.set(this.particles.nodeID, ring.height);
+            }
+
+            if (ring.innerRadius) {
+              Godot.node.particles.shape.ring.innerRadius.set(this.particles.nodeID, ring.innerRadius);
+            }
+
+            if (ring.radius) {
+              Godot.node.particles.shape.ring.radius.set(this.particles.nodeID, ring.radius);
+            }
+          }
+
+          if (properties.isEmitting !== undefined) {
+            if (properties.isEmitting) {
+              this.particles.play();
+            }
+            else {
+              this.particles.stop();
+            }
+          }
+
+          if (properties.isOneShot !== undefined) {
+            Godot.node.particles.isOneShot.set(this.particles.nodeID, properties.isOneShot);
+          }
+
+          if (properties.explosiveness) {
+            Godot.node.particles.explosiveness.set(this.particles.nodeID, properties.explosiveness);
+          }
+
+          if (properties.randomness) {
+            Godot.node.particles.randomness.set(this.particles.nodeID, properties.randomness);
+          }
+
+          if (properties.amount) {
+            Godot.node.particles.amount.set(this.particles.nodeID, properties.amount);
+          }
+
+          if (properties.lifetimeInSeconds) {
+            Godot.node.particles.lifetime.set(this.particles.nodeID, properties.lifetimeInSeconds);
+          }
+
+          if (properties.scaleMin) {
+            Godot.node.particles.scale.min.set(this.particles.nodeID, properties.scaleMin);
+          }
+
+          if (properties.scaleMax) {
+            Godot.node.particles.scale.max.set(this.particles.nodeID, properties.scaleMax);
+          }
+
+          if (properties.initialVelocityMin) {
+            Godot.node.particles.initialVelocity.min.set(this.particles.nodeID, properties.initialVelocityMin);
+          }
+
+          if (properties.initialVelocityMax) {
+            Godot.node.particles.initialVelocity.max.set(this.particles.nodeID, properties.initialVelocityMax);
+          }
+
+          if (properties.gravity) {
+            Godot.node.particles.gravity.set(this.particles.nodeID, properties.gravity.x, properties.gravity.y, properties.gravity.z);
+          }
+
+          if (properties.direction) {
+            Godot.node.particles.direction.set(this.particles.nodeID, properties.direction.x, properties.direction.y, properties.direction.z);
+          }
+
+          if (properties.spread) {
+            Godot.node.particles.spread.set(this.particles.nodeID, properties.spread);
+          }
+
+          if (properties.transformAlign) {
+            Godot.node.particles.transformAlign.set(this.particles.nodeID, properties.transformAlign);
+          }
+        }
+      }
+    },
+
+    isEmitting: (): boolean => {
+      if (this.particles.nodeID === undefined) {
+        return false;
+      }
+      else {
+        return Godot.node.particles.isEmitting.get(this.particles.nodeID) ?? false;
+      }
+    },
+
+    play: () => {
+      if (this.particles.nodeID) {
+        Godot.node.particles.isEmitting.set(this.particles.nodeID, true);
+      }
+    },
+
+    stop: () => {
+      if (this.particles.nodeID) {
+        Godot.node.particles.isEmitting.set(this.particles.nodeID, false);
+      }
+    },
+
+    destroy: () => {
+      if (this.nodeID) {
+        destroy(this.particles.nodeID, this.childNodeIDs);
+
+        this.particles.nodeID = undefined;
       }
     },
   }

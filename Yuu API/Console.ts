@@ -36,6 +36,7 @@ function start() {
 
 export const inWorldConsole = {
   visible,
+  toggle,
 }
 
 
@@ -50,6 +51,12 @@ const history: LogEntry[] = [];
 let entity: Entity | undefined;
 let isVisibleStored = false;
 
+/**
+ * Toggle the console visibility on or off
+ * @param isVisible or not
+ * @param position to place
+ * @param rotation to use
+ */
 function visible(isVisible: boolean, position: Vector3 = Vector3.up, rotation: Quaternion = Quaternion.one) {
   isVisibleStored = isVisible;
   
@@ -69,6 +76,18 @@ function visible(isVisible: boolean, position: Vector3 = Vector3.up, rotation: Q
   if (isVisible) {
     updateText();
   }
+}
+
+/**
+ * Toggle the console on or off
+ * @param position to place
+ * @param rotation to use
+ * @returns boolean true if turned on
+ */
+function toggle(position: Vector3 = Vector3.up, rotation: Quaternion = Quaternion.one) {
+  visible(!isVisibleStored, position, rotation);
+
+  return isVisibleStored;
 }
 
 function updateText() {

@@ -18,6 +18,26 @@ type ColliderTypes = 'Convex' | 'Concave';
 
 type ControllerButtonPressed = 'rightA' | 'rightB' | 'leftX' | 'leftY' | 'leftMenu' | 'leftTrigger' | 'rightTrigger' | 'leftGrip' | 'rightGrip' | 'leftThumbstick' | 'rightThumbstick'; // 'rightHome' is used for the right menu button, but on Quest is never triggered as the app is exited when the button is clicked
 
+/**
+ * Options used to select what type of 3D shape that the particle effects can exist within
+ * - Point: Spawns all particles at the emitter's origin.
+ * - Sphere: Spawns particles randomly within a spherical volume.
+ * - Sphere Surface: Spawns particles randomly on the surface of a sphere.
+ * - Box: Spawns particles randomly within a box-shaped volume.
+ * - Ring: Spawns particles within a ring-shaped area around the emitter.
+ *  */
+type ParticlesEmissionShape = 'Point' | 'Sphere' | 'Sphere Surface' | 'Box' | 'Ring';
+
+/**
+ * In particle emission: the positional alignment of particles. Useful for billboarding and aligning to velocity.
+ * - Disabled: no alignment of particle transform relative to camera or velocity.
+ * - Billboard: aligns particle's Z axis to face the camera
+ * - AlignToVelocity: aligns each particle's Y axis to the velocity vector. 
+ * - BillboardAlignToVelocity: align each particle's Z axis to the camera and Y axis to the velocity vector
+ * - LocalBillboard: aligns each particle's Z axis to face the camera while preserving the y axis
+ *  */
+type ParticlesTransformAlignment = 'Disabled' | 'Billboard' | 'AlignToVelocity' | 'BillboardAlignToVelocity' | 'LocalBillboard';
+
 
 // declare namespace console {
 //   function log(msg: any): boolean;
@@ -470,6 +490,13 @@ declare namespace Godot {
        * @returns the id of the created node
        */
       audio: (parentID: number, isSpatial: boolean) => number | undefined;
+
+      /**
+       * Creates a particles node
+       * @param parentID to host and emit the particles
+       * @returns the id of the created node
+       */
+      particles: (parentID: number) => number | undefined;
     };
 
     /**
@@ -851,6 +878,201 @@ declare namespace Godot {
       },
     };
 
+    particles: {
+      initialize: (id: number) => boolean,
+
+      /**
+      * Set the draw pass mesh to a custom mesh, using the currently applied material.
+      */
+      mesh: {
+        set: (id: number, meshID: number) => boolean,
+      },
+
+      /**
+       * Adjusts the 3D shape in which the particles emit and exist in. Set to `Point` by default.
+       * - Point: Spawns all particles at the emitter's origin.
+       * - Sphere: Spawns particles randomly within a spherical volume.
+       * - Sphere Surface: Spawns particles randomly on the surface of a sphere.
+       * - Box: Spawns particles randomly within a box-shaped volume.
+       * - Ring: Spawns particles randomly within a ring-shaped area around the emitter.
+       */
+      shape: {
+        set: (id: number, shape: ParticlesEmissionShape) => boolean,
+        get: (id: number) => ParticlesEmissionShape | undefined,
+
+        sphere: {
+          /**
+           * Adjusts the radius in which the particles can emit. Set to 1.0 by default.
+           */
+          radius: {
+            set: (id: number, radius: number) => boolean,
+            get: (id: number) => number | undefined,
+          },
+        },
+        box: {
+          /**
+           * Defines the Vector3 extents in which the particles emit from the center point. Set to `(1, 1, 1)` by default.
+           */
+          extents: {
+            set: (id: number, x: number, y: number, z: number) => boolean,
+            get: (id: number) => { x: number, y: number, z: number } | undefined,
+          },
+        },
+        ring: {
+          /**
+           * Defines the tilt axis of the emission ring. Set to `0, 0, 0` by default.
+           * Note: a "lying flat" ring is `0, 90, 0`
+           */
+          axis: {
+            set: (id: number, x: number, y: number, z: number) => boolean,
+            get: (id: number) => { x: number, y: number, z: number } | undefined,
+          },
+          /**
+           * Defines the height in meters of the emission ring. Set to `1` by default.
+           */
+          height: {
+            set: (id: number, heightM: number) => boolean,
+            get: (id: number) => number | undefined,
+          },
+          /**
+           * Defines the radius of the emission ring. Set to `1` by default.
+           */
+          radius: {
+            set: (id: number, radius: number) => boolean,
+            get: (id: number) => number | undefined,
+          },
+          /**
+           * Defines the inner radius of the emission ring/cone. Set to `0` by default.
+           */
+          innerRadius: {
+            set: (id: number, radius: number) => boolean,
+            get: (id: number) => number | undefined,
+          },
+          /**
+           * Defines the angle of the emission ring/cone, ranging from 0-90 degrees.
+           * Set to `90 degrees` by default, which results in a ring shape, while `0 degrees` results in a cone.
+           */
+          coneAngle: {
+            set: (id: number, angle: number) => boolean,
+            get: (id: number) => number | undefined,
+          },
+        },
+      },
+
+      /**
+       * Whether or not a particle effect is actively emitting. Set to `true` by default.
+       */
+      isEmitting: {
+        set: (id: number, isEmitting: boolean) => boolean,
+        get: (id: number) => boolean | undefined,
+      },
+
+      /**
+       * When true, uses the "one-shot" effect, where only the number of particles equal to
+       * `amount` will be emitted, and sets `isEmitting` to `false` once completed.
+       * Is off by default.
+       */
+      isOneShot: {
+        set: (id: number, isOneShot: boolean) => boolean,
+        get: (id: number) => boolean | undefined,
+      },
+
+      /**
+       * Adjusts the explosive nature of the particles in a range from `0 - 1`. Set to 0 by default.
+       */
+      explosiveness: {
+        set: (id: number, explosiveness: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the particle randomness in a range from `0 - 1`. Set to 0 by default.
+       */
+      randomness: {
+        set: (id: number, randomness: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the amount of particles. Set to 20 by default.
+      */
+      amount: {
+        set: (id: number, amount: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the particle lifetime in seconds. Set to 1.0 by default.
+       */
+      lifetime: {
+        set: (id: number, lifetimeInSeconds: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+       * Adjusts the min and max scale range of the particles. Set to min: 0.1 and max: 1.0 by default.
+       */
+      scale: {
+        min: {
+          set: (id: number, min: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+        max: {
+          set: (id: number, max: number) => boolean,
+          get: (id: number) => number | undefined,
+        }
+      },
+
+      /**
+       * Adjusts the min and max initial velocity of the particles. Set to min: 0.25 and max: 1.0 by default.
+       */
+      initialVelocity: {
+        min: {
+          set: (id: number, min: number) => boolean,
+          get: (id: number) => number | undefined,
+        },
+        max: {
+          set: (id: number, max: number) => boolean,
+          get: (id: number) => number | undefined,
+        }
+      },
+
+      /**
+       * Adjusts the gravity applied to each particle, is set to 0.0 by default.
+       * Earth gravity is about `0, -9.81, 0`.
+       */
+      gravity: {
+        set: (id: number, x: number, y: number, z: number) => boolean,
+        get: (id: number) => { x: number, y: number, z: number } | undefined,
+      },
+
+      /**
+       * Adjusts the direction in which the particles emit. Default set to up, `0, 1, 0`.
+       * Note: This is impacted by `particles.spread` which has a default angle of 180, so by default, direction is ignored and it fires in all directions.
+       */
+      direction: {
+        set: (id: number, x: number, y: number, z: number) => boolean,
+        get: (id: number) => { x: number, y: number, z: number } | undefined,
+      },
+
+      /**
+       * Adjusts the angle of spread for emitting particles ranging from `0 - 180`. Set to `180` by default.
+       * Note: Spread is in all directions at 180, below that, it goes in the direction specified by `particles.direction`
+       */
+      spread: {
+        set: (id: number, angle: number) => boolean,
+        get: (id: number) => number | undefined,
+      },
+
+      /**
+      * Adjusts the positional alignment of particles. Useful for billboarding and aligning to velocity.
+      */
+      transformAlign: {
+        set: (id: number, alignment: ParticlesTransformAlignment) => boolean,
+        get: (id: number) => ParticlesTransformAlignment | undefined,
+      },
+    };
+
     /**
      * Destroys a given node and its children
      * @param id of the node to destroy
@@ -1088,11 +1310,13 @@ declare namespace Godot {
       getPackets: (id: number) => string[];
     },
 
-    /**
-     * WebRTCPeerConnection is not thread safe and needs to be run on the main thread (ie. no async)
-     */
     rtcPeer: {
+      /**
+       * @returns peer id, or -1 if there is an error
+       */
       create: () => number;
+
+      createOffer: (id: number) => boolean;
 
       close: (id: number) => boolean;
 
@@ -1100,13 +1324,14 @@ declare namespace Godot {
 
       state: (id: number) => ('New' | 'Connecting' | 'Connected' | 'Disconnected' | 'Closed' | 'Failed') | undefined;
 
-      getOffer: (id: number) => { type: string, sdp: string } | undefined;
+      getLocalDescription: (id: number) => { type: string, sdp: string } | undefined;
 
       setRemoteDescription: (id: number, type: string, sdp: string) => boolean;
 
-      // sendText: (id: number, msg: string) => boolean;
+      // Would be wise to add a bool in the future for isGuaranteed/doesExpire (guaranteed is the current default, but time sensitive should drop rather than retry)
+      sendText: (id: number, msg: string) => boolean;
 
-      // getPackets: (id: number) => string[];
+      getPackets: (id: number) => string[];
     },
 
     http: {
