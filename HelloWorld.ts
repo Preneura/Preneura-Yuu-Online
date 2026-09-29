@@ -190,7 +190,7 @@ spawnPrimitive.cube(
 const brandText = new Entity(
     new Vector3(0, 2.2, -6.75),
     Quaternion.one,
-    Vector3.one,
+    new Vector3(0.70, 0.70, 0.70),
     undefined,
     "Static"
 );
