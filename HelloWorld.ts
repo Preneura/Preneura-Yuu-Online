@@ -76,7 +76,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(-3.78, 0.42, -3),
-        new Vector3(0.06, 0.3, 7.6),
+        new Vector3(0.06, 0.05, 7.6),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -87,7 +87,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(3.78, 0.42, -3),
-        new Vector3(0.06, 0.1, 7.6),
+        new Vector3(0.06, 0.05, 7.6),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -98,7 +98,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(0, 0.42, -6.78),
-        new Vector3(7.6, 0.3, 0.06),
+        new Vector3(7.6, 0.05, 0.06),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -142,7 +142,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(-3.36, 2.25, 0.65),
-        new Vector3(0.04, 3.6, 0.54),
+        new Vector3(0.04, 3.6, 0.08),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -153,7 +153,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(3.36, 2.25, 0.65),
-        new Vector3(0.04, 3.6, 0.54),
+        new Vector3(0.04, 3.6, 0.08),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -164,7 +164,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(0, 3.91, 0.65),
-        new Vector3(6.65, 0.04, 0.54),
+        new Vector3(6.65, 0.04, 0.08),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
