@@ -244,7 +244,7 @@ const brandText = new Entity(
 
 brandText.text.create(
     "METAVERSE INSPIRED",
-    70,
+    60,
     2
 );
 
