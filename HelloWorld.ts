@@ -4,6 +4,7 @@ import { Vector3 } from "./Yuu API/Basic Types/Vector3";
 import { inWorldConsole } from "./Yuu API/Console";
 import { registerStart } from "./Yuu API/RegisterStart";
 import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
+import { SkyDome } from "./Yuu API/SkyDome";
 
 registerStart(start);
 
@@ -11,6 +12,23 @@ function start() {
     inWorldConsole.visible(true, new Vector3(0, 1.5, -1.5));
 
     console.log("Welcome to Yuu Online!");
+
+SkyDome.skyMaterial.setProceduralSkyMaterial(
+    new Color(0.005, 0.005, 0.02),  // Top - almost black with a hint of blue
+    new Color(0.04, 0.015, 0.06),   // Upper horizon - dark purple
+    0.15,
+    new Color(0.005, 0.005, 0.01),  // Bottom - near black
+    new Color(0.08, 0.025, 0.015),   // Lower horizon - subtle warm/orange tint
+    0.10
+);
+
+SkyDome.ambientLight.baseColor.set(
+    new Color(0.35, 0.38, 0.48)
+);
+
+SkyDome.ambientLight.energy.set(0.65);
+
+SkyDome.ambientLight.skyColorContribution.set(0.15);
     
     spawnPrimitive.cube(
         new Vector3(0, 0.10, -3),
@@ -69,7 +87,7 @@ function start() {
 
     spawnPrimitive.cube(
         new Vector3(3.78, 0.42, -3),
-        new Vector3(0.06, 0.3, 7.6),
+        new Vector3(0.06, 0.1, 7.6),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
