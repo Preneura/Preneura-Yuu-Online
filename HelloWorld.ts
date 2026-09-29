@@ -164,7 +164,7 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
 
     spawnPrimitive.cube(
         new Vector3(0, 3.91, 0.65),
-        new Vector3(6.70, 0.04, 0.08),
+        new Vector3(6.72, 0.04, 0.08),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
