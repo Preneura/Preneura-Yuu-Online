@@ -185,6 +185,53 @@ spawnPrimitive.cube(
     "Static",
     undefined
 );
+    // Feature wall orange border - left
+spawnPrimitive.cube(
+    new Vector3(-3.35, 2.25, -6.74),
+    new Vector3(0.035, 3.55, 0.04),
+    Quaternion.one,
+    new Color(1, 0.25, 0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+// Feature wall orange border - right
+spawnPrimitive.cube(
+    new Vector3(3.35, 2.25, -6.74),
+    new Vector3(0.035, 3.55, 0.04),
+    Quaternion.one,
+    new Color(1, 0.25, 0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+// Feature wall orange border - top
+spawnPrimitive.cube(
+    new Vector3(0, 4.01, -6.74),
+    new Vector3(6.735, 0.035, 0.04),
+    Quaternion.one,
+    new Color(1, 0.25, 0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+// Feature wall orange border - bottom
+spawnPrimitive.cube(
+    new Vector3(0, 0.49, -6.74),
+    new Vector3(6.735, 0.035, 0.04),
+    Quaternion.one,
+    new Color(1, 0.25, 0),
+    1,
+    false,
+    "Static",
+    undefined
+);
     
     // Metaverse Inspired back-wall text test
 const brandText = new Entity(
