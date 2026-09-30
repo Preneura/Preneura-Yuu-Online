@@ -466,10 +466,6 @@ energyNodeLeft.mesh.material.emissionColor.set(
 
 energyNodeLeft.mesh.material.emissionStrength.set(5);
 
-energyNodeRight.mesh.shader.set(
-    energyNodeShader
-);
-
 // Right energy node
 const energyNodeRight = spawnPrimitive.sphere(
     32,
