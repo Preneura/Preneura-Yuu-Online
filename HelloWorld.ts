@@ -295,7 +295,7 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
 
     enterButtonText.text.create(
         "ENTER THE METAVERSE",
-        10,
+        15,
         1
     );
 
@@ -653,7 +653,29 @@ createEnergyPylon(3.2, -12.0);
     // ========================================
 // ENERGY CHAMBER - CYAN ENERGY SPIRES
 // ========================================
+const energySpireShader = `
+shader_type spatial;
 
+render_mode unshaded, cull_disabled;
+
+void fragment() {
+    float pulse = sin(TIME * 3.0 + UV.y * 10.0) * 0.5 + 0.5;
+
+    float energy =
+        sin(UV.y * 30.0 - TIME * 4.0) * 0.5 + 0.5;
+
+    vec3 deepBlue = vec3(0.01, 0.08, 0.35);
+    vec3 cyan = vec3(0.0, 0.95, 1.0);
+
+    vec3 finalColor =
+        mix(deepBlue, cyan, energy);
+
+    finalColor += cyan * pulse * 0.30;
+
+    ALBEDO = finalColor;
+    EMISSION = finalColor * 2.2;
+}
+`;
 function createEnergySpire(x: number, z: number) {
 
     const spire = spawnPrimitive.cone(
@@ -682,6 +704,7 @@ function createEnergySpire(x: number, z: number) {
 
     spire.mesh.material.metallic.set(0.35);
     spire.mesh.material.roughness.set(0.12);
+    spire.mesh.shader.set(energySpireShader);
 }
 
 
@@ -692,6 +715,10 @@ createEnergySpire(3.2, -8.2);
 
 createEnergySpire(-3.2, -12.0);
 createEnergySpire(3.2, -12.0);
+
+    // ========================================
+// ENERGY SPIRE - ANIMATED SHADER
+// ========================================
 
 // Left illuminated edge
 const walkwayLightLeft = spawnPrimitive.cube(
