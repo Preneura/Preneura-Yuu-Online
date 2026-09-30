@@ -785,8 +785,8 @@ walkwayLightLeft.mesh.material.emissionStrength.set(4);
 
 // Right illuminated edge
 const walkwayLightRight = spawnPrimitive.cube(
-    new Vector3(1.43, 0.28, -11),
-    new Vector3(0.06, 0.06, 8.0),
+    new Vector3(1.43, 0.28, -7),
+    new Vector3(0.06, 0.06, 4.0),
     Quaternion.one,
     new Color(0.05, 0.25, 1),
     1,
@@ -800,4 +800,65 @@ walkwayLightRight.mesh.material.emissionColor.set(
 );
 
 walkwayLightRight.mesh.material.emissionStrength.set(4);
+    // ========================================
+// ENERGY CHAMBER - FLOATING ENERGY HALO
+// ========================================
+
+const haloShader = `
+shader_type spatial;
+
+render_mode unshaded;
+
+void fragment() {
+
+    float pulse =
+        sin(TIME * 4.0 + UV.y * 12.0) * 0.5 + 0.5;
+
+    vec3 blue = vec3(0.02, 0.15, 0.65);
+    vec3 cyan = vec3(0.0, 1.0, 1.0);
+
+    vec3 finalColor =
+        mix(blue, cyan, pulse);
+
+    ALBEDO = finalColor;
+    EMISSION = finalColor * 2.5;
+}
+`;
+
+const haloRadius = 3.0;
+const haloHeight = 5.8;
+const haloSegments = 20;
+
+for (let i = 0; i < haloSegments; i++) {
+
+    const angle =
+        (i / haloSegments) * Math.PI * 2;
+
+    const x =
+        Math.cos(angle) * haloRadius;
+
+    const z =
+        -10 + Math.sin(angle) * haloRadius;
+
+    const haloPiece = spawnPrimitive.sphere(
+        16,
+        10,
+        new Vector3(
+            x,
+            haloHeight,
+            z
+        ),
+        0.20,
+        Quaternion.one,
+        new Color(0.0, 0.8, 1.0),
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+
+    haloPiece.mesh.shader.set(
+        haloShader
+    );
+}
 }
