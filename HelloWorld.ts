@@ -1095,4 +1095,69 @@ import { grabbable } from "./Yuu API/Grabbable";
     );
     
     phase3GlowTop.mesh.material.emissionStrength.set(6);
+
+    const bridgePieces = [
+        { x: 0.00, y: 0.18, z: -19.7, sx: 2.8, sz: 1.15 },
+        { x: -0.18, y: 0.24, z: -21.0, sx: 2.5, sz: 1.05 },
+        { x: 0.20, y: 0.32, z: -22.25, sx: 2.35, sz: 1.00 },
+        { x: -0.25, y: 0.42, z: -23.45, sx: 2.15, sz: 0.95 },
+        { x: 0.18, y: 0.54, z: -24.60, sx: 2.00, sz: 0.90 },
+        { x: 0.00, y: 0.68, z: -25.70, sx: 1.85, sz: 0.85 }
+    ];
+    
+    for (const piece of bridgePieces) {
+    
+        const bridgePiece = spawnPrimitive.cube(
+            new Vector3(
+                piece.x,
+                piece.y,
+                piece.z
+            ),
+            new Vector3(
+                piece.sx,
+                0.22,
+                piece.sz
+            ),
+            Quaternion.one,
+            new Color(0.018, 0.022, 0.035),
+            1,
+            true,
+            "Static",
+            undefined
+        );
+    
+        bridgePiece.mesh.material.metallic.set(0.75);
+        bridgePiece.mesh.material.roughness.set(0.20);
+    }
+    
+    const bridgeEnergyPositions = [
+        new Vector3(0.00, 0.32, -19.7),
+        new Vector3(-0.18, 0.38, -21.0),
+        new Vector3(0.20, 0.46, -22.25),
+        new Vector3(-0.25, 0.56, -23.45),
+        new Vector3(0.18, 0.68, -24.60),
+        new Vector3(0.00, 0.82, -25.70)
+    ];
+    
+    for (const energyPosition of bridgeEnergyPositions) {
+    
+        const bridgeEnergyCore = spawnPrimitive.sphere(
+            16,
+            10,
+            energyPosition,
+            0.13,
+            Quaternion.one,
+            new Color(1.0, 0.18, 0.55),
+            1,
+            "None",
+            "Static",
+            undefined
+        );
+    
+        bridgeEnergyCore.mesh.material.emissionColor.set(
+            new Color(1.0, 0.18, 0.55)
+        );
+    
+        bridgeEnergyCore.mesh.material.emissionStrength.set(6);
+    }
 }
