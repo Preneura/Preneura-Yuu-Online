@@ -222,7 +222,7 @@ spawnPrimitive.cube(
 
 const gatewayDoor = spawnPrimitive.cube(
     new Vector3(0, 2.0, -6.75),
-    new Vector3(3.15, 3.0, 0.08),
+    new Vector3(3.25, 3.0, 0.08),
     Quaternion.one,
     new Color(0.01, 0.015, 0.025),
     1,
@@ -271,17 +271,6 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
         undefined
     );
 
-    spawnPrimitive.cube(
-        new Vector3(0, 0.49, -6.74),
-        new Vector3(6.735, 0.035, 0.04),
-        Quaternion.one,
-        new Color(1, 0.25, 0),
-        1,
-        false,
-        "Static",
-        undefined
-    );
-    
     const brandText = new Entity(
         new Vector3(0, 2.2, -6.75),
         Quaternion.one,
@@ -376,8 +365,6 @@ welcomeText.visible.set(false);
     enterButtonText.text.display.set(
         "WELCOME"
     );
-
-    welcomeText.visible.set(true);
 
         gatewayDoor.visible.set(false);
         gatewayDoor.collidable.set(false);
