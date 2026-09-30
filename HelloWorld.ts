@@ -176,16 +176,45 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
         undefined
     );
 
-    spawnPrimitive.cube(
-        new Vector3(0, 2.25, -6.82),
-        new Vector3(7.8, 4, 0.12),
-        Quaternion.one,
-        new Color(0.015, 0.015, 0.025),
-        1,
-        true,
-        "Static",
-        undefined
-    );
+    // ========================================
+// PHASE 2 GATEWAY WALL
+// ========================================
+
+// Left side of feature wall
+spawnPrimitive.cube(
+    new Vector3(-2.75, 2.25, -6.82),
+    new Vector3(2.3, 4, 0.12),
+    Quaternion.one,
+    new Color(0.015, 0.015, 0.025),
+    1,
+    true,
+    "Static",
+    undefined
+);
+
+// Right side of feature wall
+spawnPrimitive.cube(
+    new Vector3(2.75, 2.25, -6.82),
+    new Vector3(2.3, 4, 0.12),
+    Quaternion.one,
+    new Color(0.015, 0.015, 0.025),
+    1,
+    true,
+    "Static",
+    undefined
+);
+
+// Top beam above gateway
+spawnPrimitive.cube(
+    new Vector3(0, 3.75, -6.82),
+    new Vector3(3.2, 1, 0.12),
+    Quaternion.one,
+    new Color(0.015, 0.015, 0.025),
+    1,
+    true,
+    "Static",
+    undefined
+);
 
     spawnPrimitive.cube(
         new Vector3(-3.35, 2.25, -6.74),
