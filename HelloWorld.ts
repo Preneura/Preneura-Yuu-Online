@@ -216,6 +216,28 @@ spawnPrimitive.cube(
     undefined
 );
 
+    // ========================================
+// PHASE 2 GATEWAY DOOR
+// ========================================
+
+const gatewayDoor = spawnPrimitive.cube(
+    new Vector3(0, 2.0, -6.75),
+    new Vector3(3.15, 3.0, 0.08),
+    Quaternion.one,
+    new Color(0.01, 0.015, 0.025),
+    1,
+    true,
+    "Static",
+    undefined
+);
+
+// Subtle blue energy glow on the closed doorway
+gatewayDoor.mesh.material.emissionColor.set(
+    new Color(0.02, 0.08, 0.18)
+);
+
+gatewayDoor.mesh.material.emissionStrength.set(1.5);
+
     spawnPrimitive.cube(
         new Vector3(-3.35, 2.25, -6.74),
         new Vector3(0.035, 3.55, 0.04),
@@ -355,6 +377,9 @@ welcomeText.visible.set(false);
     );
 
     welcomeText.visible.set(true);
+
+        gatewayDoor.visible.set(false);
+        gatewayDoor.collidable.set(false);
 
         const orangeParticles =
             DefaultParticles.getColoredWaterFountainParticlesProperties(
