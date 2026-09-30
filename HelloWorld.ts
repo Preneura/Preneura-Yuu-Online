@@ -1261,4 +1261,149 @@ import { grabbable } from "./Yuu API/Grabbable";
     islandHeart.mesh.shader.set(
         islandHeartShader
     );
+    // ========================================
+// IMPOSSIBLE GARDEN - LUMINOUS FLORA
+// ========================================
+
+function createLuminousFlower(
+    x: number,
+    z: number,
+    height: number,
+    size: number,
+    color: Color
+) {
+
+    // Dark metallic stem
+    const stem = spawnPrimitive.cylinder(
+        16,
+        new Vector3(
+            x,
+            0.55 + height / 2,
+            z
+        ),
+        0.18,
+        Quaternion.one,
+        new Color(0.025, 0.018, 0.045),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    stem.scale = new Vector3(
+        size,
+        height,
+        size
+    );
+
+    stem.mesh.material.metallic.set(0.45);
+    stem.mesh.material.roughness.set(0.30);
+
+
+    // Glowing flower core
+    const flowerCore = spawnPrimitive.sphere(
+        24,
+        16,
+        new Vector3(
+            x,
+            0.65 + height,
+            z
+        ),
+        0.42 * size,
+        Quaternion.one,
+        color,
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+
+    flowerCore.mesh.material.emissionColor.set(color);
+    flowerCore.mesh.material.emissionStrength.set(6);
+
+    const petalDistance = 0.55 * size;
+
+    const petalPositions = [
+        new Vector3(
+            x + petalDistance,
+            0.65 + height,
+            z
+        ),
+
+        new Vector3(
+            x - petalDistance,
+            0.65 + height,
+            z
+        ),
+
+        new Vector3(
+            x,
+            0.65 + height,
+            z + petalDistance
+        ),
+
+        new Vector3(
+            x,
+            0.65 + height,
+            z - petalDistance
+        )
+    ];
+
+    for (const petalPosition of petalPositions) {
+
+        const petal = spawnPrimitive.sphere(
+            16,
+            10,
+            petalPosition,
+            0.30 * size,
+            Quaternion.one,
+            color,
+            0.45,
+            "None",
+            "Static",
+            undefined
+        );
+
+        petal.scale = new Vector3(
+            1.8,
+            0.45,
+            1.0
+        );
+
+        petal.mesh.material.emissionColor.set(color);
+        petal.mesh.material.emissionStrength.set(3);
+    }
+}
+
+    createLuminousFlower(
+        -2.0,
+        -28.3,
+        1.65,
+        1.0,
+        new Color(1.0, 0.10, 0.55)
+    );
+    
+    createLuminousFlower(
+        2.1,
+        -29.0,
+        2.1,
+        1.15,
+        new Color(0.60, 0.15, 1.0)
+    );
+    
+    createLuminousFlower(
+        -1.5,
+        -31.0,
+        1.25,
+        0.85,
+        new Color(0.0, 0.85, 1.0)
+    );
+    
+    createLuminousFlower(
+        1.5,
+        -31.2,
+        1.75,
+        0.95,
+        new Color(1.0, 0.28, 0.18)
+    );
 }
