@@ -411,6 +411,41 @@ energyShell.mesh.material.emissionStrength.set(2);
 energyShell.mesh.material.metallic.set(0.25);
 energyShell.mesh.material.roughness.set(0.15);
 
+    // ========================================
+// ENERGY CORE - ANIMATED SHELL SHADER
+// ========================================
+
+const energyShellShader = `
+shader_type spatial;
+
+render_mode unshaded, cull_disabled;
+
+void fragment() {
+    float pulse = sin(TIME * 2.5) * 0.5 + 0.5;
+
+    float waves =
+        sin(UV.y * 35.0 + TIME * 3.0) *
+        sin(UV.x * 25.0 - TIME * 2.0);
+
+    waves = waves * 0.5 + 0.5;
+
+    vec3 deepBlue = vec3(0.01, 0.05, 0.35);
+    vec3 cyan = vec3(0.0, 0.85, 1.0);
+
+    vec3 energyColor =
+        mix(deepBlue, cyan, waves);
+
+    energyColor += cyan * pulse * 0.25;
+
+    ALBEDO = energyColor;
+    EMISSION = energyColor * 1.8;
+
+    ALPHA = 0.30 + waves * 0.25;
+}
+`;
+
+energyShell.mesh.shader.set(energyShellShader);
+
     // Left energy node
 const energyNodeLeft = spawnPrimitive.sphere(
     32,
@@ -452,21 +487,7 @@ energyNodeRight.mesh.material.emissionColor.set(
 
 energyNodeRight.mesh.material.emissionStrength.set(5);
 
-    // ========================================
-// ENERGY CORE - PARTICLE FIELD
 // ========================================
-
-const coreParticles =
-    DefaultParticles.getColoredWaterFountainParticlesProperties(
-        new Color(0.05, 0.35, 1)
-    );
-
-PlayParticles.atPos(
-    new Vector3(0, 1.5, -10),
-    coreParticles
-);
-    
-    // ========================================
 // PHASE 2 - ENERGY WALKWAY
 // ========================================
 
