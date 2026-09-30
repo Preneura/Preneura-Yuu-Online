@@ -419,4 +419,58 @@ energyCore.mesh.material.emissionColor.set(
 );
 
 energyCore.mesh.material.emissionStrength.set(4);    
+    // ========================================
+// PHASE 2 - ENERGY WALKWAY
+// ========================================
+
+// Main walkway
+const phase2Walkway = spawnPrimitive.cube(
+    new Vector3(0, 0.10, -11),
+    new Vector3(3.0, 0.25, 8.0),
+    Quaternion.one,
+    new Color(0.018, 0.022, 0.035),
+    1,
+    true,
+    "Static",
+    undefined
+);
+
+phase2Walkway.mesh.material.metallic.set(0.65);
+phase2Walkway.mesh.material.roughness.set(0.25);
+
+// Left illuminated edge
+const walkwayLightLeft = spawnPrimitive.cube(
+    new Vector3(-1.43, 0.28, -11),
+    new Vector3(0.06, 0.06, 8.0),
+    Quaternion.one,
+    new Color(0.05, 0.25, 1),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+walkwayLightLeft.mesh.material.emissionColor.set(
+    new Color(0.05, 0.25, 1)
+);
+
+walkwayLightLeft.mesh.material.emissionStrength.set(4);
+
+// Right illuminated edge
+const walkwayLightRight = spawnPrimitive.cube(
+    new Vector3(1.43, 0.28, -11),
+    new Vector3(0.06, 0.06, 8.0),
+    Quaternion.one,
+    new Color(0.05, 0.25, 1),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+walkwayLightRight.mesh.material.emissionColor.set(
+    new Color(0.05, 0.25, 1)
+);
+
+walkwayLightRight.mesh.material.emissionStrength.set(4);
 }
