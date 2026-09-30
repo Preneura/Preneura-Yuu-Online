@@ -579,6 +579,77 @@ chamberEdgeBack.mesh.material.emissionColor.set(
 );
 chamberEdgeBack.mesh.material.emissionStrength.set(5);
 
+    // ========================================
+// ENERGY CHAMBER - CONTAINMENT PYLONS
+// ========================================
+
+function createEnergyPylon(x: number, z: number) {
+
+    // Main dark structure
+    const body = spawnPrimitive.cube(
+        new Vector3(x, 2.25, z),
+        new Vector3(0.45, 4.0, 0.45),
+        Quaternion.one,
+        new Color(0.012, 0.016, 0.025),
+        1,
+        true,
+        "Static",
+        undefined
+    );
+
+    body.mesh.material.metallic.set(0.85);
+    body.mesh.material.roughness.set(0.18);
+
+
+    // Vertical energy channel
+    const energyStrip = spawnPrimitive.cube(
+        new Vector3(x, 2.25, z - 0.24),
+        new Vector3(0.12, 3.35, 0.04),
+        Quaternion.one,
+        new Color(0.0, 0.75, 1.0),
+        1,
+        false,
+        "Static",
+        undefined
+    );
+
+    energyStrip.mesh.material.emissionColor.set(
+        new Color(0.0, 0.75, 1.0)
+    );
+
+    energyStrip.mesh.material.emissionStrength.set(6);
+
+
+    // Glowing crown
+    const crown = spawnPrimitive.sphere(
+        24,
+        16,
+        new Vector3(x, 4.45, z),
+        0.38,
+        Quaternion.one,
+        new Color(0.0, 0.75, 1.0),
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+
+    crown.mesh.material.emissionColor.set(
+        new Color(0.0, 0.75, 1.0)
+    );
+
+    crown.mesh.material.emissionStrength.set(5);
+}
+
+
+// Four pylons surrounding the Energy Core
+
+createEnergyPylon(-3.2, -8.2);
+createEnergyPylon(3.2, -8.2);
+
+createEnergyPylon(-3.2, -12.0);
+createEnergyPylon(3.2, -12.0);
+
 // Left illuminated edge
 const walkwayLightLeft = spawnPrimitive.cube(
     new Vector3(-1.43, 0.28, -11),
