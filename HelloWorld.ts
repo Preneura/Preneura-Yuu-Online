@@ -295,7 +295,7 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
 
     enterButtonText.text.create(
         "ENTER THE METAVERSE",
-        15,
+        14,
         1
     );
 
@@ -525,7 +525,52 @@ const energyChamberFloor = spawnPrimitive.cube(
 energyChamberFloor.mesh.material.metallic.set(0.75);
 energyChamberFloor.mesh.material.roughness.set(0.22);
 
+// ========================================
+// ENERGY CHAMBER - ANIMATED FLOOR
+// ========================================
 
+const energyFloorShader = `
+shader_type spatial;
+
+render_mode unshaded;
+
+void fragment() {
+
+    vec2 centeredUV = UV - vec2(0.5);
+
+    float distanceFromCenter = length(centeredUV);
+
+    // Expanding energy rings
+    float rings =
+        sin(distanceFromCenter * 65.0 - TIME * 3.0);
+
+    rings = smoothstep(0.72, 1.0, rings);
+
+    // Keep most of the floor nearly black
+    vec3 darkFloor = vec3(0.005, 0.012, 0.025);
+
+    // Cyan energy
+    vec3 cyanEnergy = vec3(0.0, 0.75, 1.0);
+
+    // Fade the rings as they travel outward
+    float fade =
+        1.0 - smoothstep(0.05, 0.70, distanceFromCenter);
+
+    vec3 finalColor =
+        darkFloor +
+        cyanEnergy * rings * fade * 0.75;
+
+    ALBEDO = finalColor;
+
+    EMISSION =
+        cyanEnergy * rings * fade * 1.4;
+}
+`;
+
+energyChamberFloor.mesh.shader.set(
+    energyFloorShader
+);
+    
 // Left glowing chamber edge
 const chamberEdgeLeft = spawnPrimitive.cube(
     new Vector3(-4.85, 0.28, -14),
