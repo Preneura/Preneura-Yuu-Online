@@ -89,17 +89,6 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
     );
 
     spawnPrimitive.cube(
-        new Vector3(0, 0.42, -6.78),
-        new Vector3(7.6, 0.05, 0.06),
-        Quaternion.one,
-        new Color(1, 0.25, 0),
-        1,
-        false,
-        "Static",
-        undefined
-    );
-
-    spawnPrimitive.cube(
         new Vector3(-3.65, 2.25, 0.65),
         new Vector3(0.5, 4, 0.5),
         Quaternion.one,
@@ -210,8 +199,8 @@ spawnPrimitive.cube(
 // ========================================
 
 const gatewayDoor = spawnPrimitive.cube(
-    new Vector3(0, 1.95, -6.75),
-    new Vector3(3.25, 3.10, 0.08),
+    new Vector3(0, 1.75, -6.75),
+    new Vector3(3.25, 3.50, 0.08),
     Quaternion.one,
     new Color(0.01, 0.015, 0.025),
     1,
