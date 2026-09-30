@@ -295,7 +295,7 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
 
     enterButtonText.text.create(
         "ENTER THE METAVERSE",
-        20,
+        10,
         1
     );
 
@@ -384,7 +384,74 @@ energyCore.mesh.material.emissionColor.set(
     new Color(0.08, 0.25, 1)
 );
 
-energyCore.mesh.material.emissionStrength.set(4);    
+energyCore.mesh.material.emissionStrength.set(4);  
+    // ========================================
+// ENERGY CORE - OUTER ENERGY SHELL
+// ========================================
+
+const energyShell = spawnPrimitive.sphere(
+    48,
+    32,
+    new Vector3(0, 2.5, -10),
+    2.15,
+    Quaternion.one,
+    new Color(0.08, 0.20, 1),
+    0.18,
+    "None",
+    "Static",
+    undefined
+);
+
+energyShell.mesh.material.emissionColor.set(
+    new Color(0.03, 0.12, 1)
+);
+
+energyShell.mesh.material.emissionStrength.set(2);
+
+energyShell.mesh.material.metallic.set(0.25);
+energyShell.mesh.material.roughness.set(0.15);
+
+    // Left energy node
+const energyNodeLeft = spawnPrimitive.sphere(
+    32,
+    20,
+    new Vector3(-1.65, 2.5, -10),
+    0.28,
+    Quaternion.one,
+    new Color(0.05, 0.35, 1),
+    1,
+    "None",
+    "Static",
+    undefined
+);
+
+energyNodeLeft.mesh.material.emissionColor.set(
+    new Color(0.05, 0.35, 1)
+);
+
+energyNodeLeft.mesh.material.emissionStrength.set(5);
+
+
+// Right energy node
+const energyNodeRight = spawnPrimitive.sphere(
+    32,
+    20,
+    new Vector3(1.65, 2.5, -10),
+    0.28,
+    Quaternion.one,
+    new Color(0.05, 0.35, 1),
+    1,
+    "None",
+    "Static",
+    undefined
+);
+
+energyNodeRight.mesh.material.emissionColor.set(
+    new Color(0.05, 0.35, 1)
+);
+
+energyNodeRight.mesh.material.emissionStrength.set(5);
+    
     // ========================================
 // PHASE 2 - ENERGY WALKWAY
 // ========================================
