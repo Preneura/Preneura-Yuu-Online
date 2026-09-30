@@ -650,6 +650,49 @@ createEnergyPylon(3.2, -8.2);
 createEnergyPylon(-3.2, -12.0);
 createEnergyPylon(3.2, -12.0);
 
+    // ========================================
+// ENERGY CHAMBER - CYAN ENERGY SPIRES
+// ========================================
+
+function createEnergySpire(x: number, z: number) {
+
+    const spire = spawnPrimitive.cone(
+        6,
+        new Vector3(x, 5.35, z),
+        0.85,
+        Quaternion.one,
+        new Color(0.0, 0.75, 1.0),
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+
+    spire.scale = new Vector3(
+        0.55,
+        2.2,
+        0.55
+    );
+
+    spire.mesh.material.emissionColor.set(
+        new Color(0.0, 0.75, 1.0)
+    );
+
+    spire.mesh.material.emissionStrength.set(5);
+
+    spire.mesh.material.metallic.set(0.35);
+    spire.mesh.material.roughness.set(0.12);
+}
+
+
+// Spires above the four containment pylons
+
+createEnergySpire(-3.2, -8.2);
+createEnergySpire(3.2, -8.2);
+
+createEnergySpire(-3.2, -12.0);
+createEnergySpire(3.2, -12.0);
+
 // Left illuminated edge
 const walkwayLightLeft = spawnPrimitive.cube(
     new Vector3(-1.43, 0.28, -11),
