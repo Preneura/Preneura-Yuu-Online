@@ -345,7 +345,7 @@ welcomeText.visible.set(false);
 const energyCore = spawnPrimitive.sphere(
     48,
     32,
-    new Vector3(0, 2.5, 5),
+    new Vector3(0, 2.5, -10),
     1.5,
     Quaternion.one,
     new Color(0.12, 0.35, 1),
