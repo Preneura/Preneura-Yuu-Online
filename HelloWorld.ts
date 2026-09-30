@@ -451,6 +451,20 @@ energyNodeRight.mesh.material.emissionColor.set(
 );
 
 energyNodeRight.mesh.material.emissionStrength.set(5);
+
+    // ========================================
+// ENERGY CORE - PARTICLE FIELD
+// ========================================
+
+const coreParticles =
+    DefaultParticles.getColoredWaterFountainParticlesProperties(
+        new Color(0.05, 0.35, 1)
+    );
+
+PlayParticles.atPos(
+    new Vector3(0, 1.5, -10),
+    coreParticles
+);
     
     // ========================================
 // PHASE 2 - ENERGY WALKWAY
