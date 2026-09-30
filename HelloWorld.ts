@@ -466,46 +466,6 @@ energyNodeLeft.mesh.material.emissionColor.set(
 
 energyNodeLeft.mesh.material.emissionStrength.set(5);
 
-    // ========================================
-// ENERGY CORE - ANIMATED SIDE NODES
-// ========================================
-
-const energyNodeShader = `
-shader_type spatial;
-
-render_mode unshaded;
-
-void fragment() {
-
-    float pulse =
-        sin(TIME * 4.0) * 0.5 + 0.5;
-
-    float wave =
-        sin(UV.y * 18.0 - TIME * 5.0) * 0.5 + 0.5;
-
-    vec3 deepBlue =
-        vec3(0.01, 0.10, 0.45);
-
-    vec3 cyan =
-        vec3(0.0, 1.0, 1.0);
-
-    vec3 finalColor =
-        mix(deepBlue, cyan, wave);
-
-    finalColor +=
-        cyan * pulse * 0.45;
-
-    ALBEDO = finalColor;
-
-    EMISSION =
-        finalColor * (1.8 + pulse);
-}
-`;
-
-energyNodeLeft.mesh.shader.set(
-    energyNodeShader
-);
-
 energyNodeRight.mesh.shader.set(
     energyNodeShader
 );
