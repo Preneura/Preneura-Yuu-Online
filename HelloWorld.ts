@@ -305,10 +305,11 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
     );
 
     brandText.text.doubleSided.set(true);
+    brandText.visible.set(false);
 
     const enterButton = spawnPrimitive.cube(
-        new Vector3(0, 1.15, -6.65),
-        new Vector3(2.4, 0.45, 0.12),
+        new Vector3(-2.45, 1.25, -6.65),
+        new Vector3(1.6, 0.45, 0.12),
         Quaternion.one,
         new Color(1, 0.25, 0),
         1,
@@ -318,7 +319,7 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
     );
 
     const enterButtonText = new Entity(
-        new Vector3(0, 1.15, -6.58),
+        new Vector3(-2.45, 1.25, -6.58),
         Quaternion.one,
         new Vector3(0.10, 0.10, 0.10),
         undefined,
@@ -338,7 +339,7 @@ gatewayDoor.mesh.material.emissionStrength.set(1.5);
     enterButtonText.text.doubleSided.set(true);
         
 const welcomeText = new Entity(
-    new Vector3(0, 1.65, -6.58),
+    new Vector3(-2.45, 1.70, -6.58),
     Quaternion.one,
     new Vector3(0.10, 0.10, 0.10),
     undefined,
