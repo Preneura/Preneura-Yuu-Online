@@ -506,6 +506,79 @@ const phase2Walkway = spawnPrimitive.cube(
 phase2Walkway.mesh.material.metallic.set(0.65);
 phase2Walkway.mesh.material.roughness.set(0.25);
 
+    // ========================================
+// PHASE 2 - ENERGY CHAMBER PLATFORM
+// ========================================
+
+// Main chamber floor
+const energyChamberFloor = spawnPrimitive.cube(
+    new Vector3(0, 0.10, -14),
+    new Vector3(10, 0.25, 10),
+    Quaternion.one,
+    new Color(0.012, 0.016, 0.028),
+    1,
+    true,
+    "Static",
+    undefined
+);
+
+energyChamberFloor.mesh.material.metallic.set(0.75);
+energyChamberFloor.mesh.material.roughness.set(0.22);
+
+
+// Left glowing chamber edge
+const chamberEdgeLeft = spawnPrimitive.cube(
+    new Vector3(-4.85, 0.28, -14),
+    new Vector3(0.08, 0.07, 9.7),
+    Quaternion.one,
+    new Color(0.0, 0.65, 1.0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+chamberEdgeLeft.mesh.material.emissionColor.set(
+    new Color(0.0, 0.65, 1.0)
+);
+chamberEdgeLeft.mesh.material.emissionStrength.set(5);
+
+
+// Right glowing chamber edge
+const chamberEdgeRight = spawnPrimitive.cube(
+    new Vector3(4.85, 0.28, -14),
+    new Vector3(0.08, 0.07, 9.7),
+    Quaternion.one,
+    new Color(0.0, 0.65, 1.0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+chamberEdgeRight.mesh.material.emissionColor.set(
+    new Color(0.0, 0.65, 1.0)
+);
+chamberEdgeRight.mesh.material.emissionStrength.set(5);
+
+
+// Far glowing chamber edge
+const chamberEdgeBack = spawnPrimitive.cube(
+    new Vector3(0, 0.28, -18.85),
+    new Vector3(9.7, 0.07, 0.08),
+    Quaternion.one,
+    new Color(0.0, 0.65, 1.0),
+    1,
+    false,
+    "Static",
+    undefined
+);
+
+chamberEdgeBack.mesh.material.emissionColor.set(
+    new Color(0.0, 0.65, 1.0)
+);
+chamberEdgeBack.mesh.material.emissionStrength.set(5);
+
 // Left illuminated edge
 const walkwayLightLeft = spawnPrimitive.cube(
     new Vector3(-1.43, 0.28, -11),
