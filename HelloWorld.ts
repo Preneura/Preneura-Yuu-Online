@@ -1406,4 +1406,138 @@ function createLuminousFlower(
         0.95,
         new Color(1.0, 0.28, 0.18)
     );
+    // ========================================
+// IMPOSSIBLE GARDEN - CELESTIAL BLOOM
+// ========================================
+
+// Central floating bloom
+const celestialBloom = spawnPrimitive.sphere(
+    32,
+    20,
+    new Vector3(0, 6.2, -29.0),
+    1.25,
+    Quaternion.one,
+    new Color(0.65, 0.08, 1.0),
+    1,
+    "None",
+    "Static",
+    undefined
+);
+
+
+// ========================================
+// CELESTIAL BLOOM - ANIMATED SHADER
+// ========================================
+
+const celestialBloomShader = `
+shader_type spatial;
+
+render_mode unshaded;
+
+void fragment() {
+
+    vec2 centeredUV =
+        UV - vec2(0.5);
+
+    float wave1 =
+        sin(
+            UV.y * 28.0 +
+            TIME * 2.5
+        );
+
+    float wave2 =
+        sin(
+            UV.x * 22.0 -
+            TIME * 3.0
+        );
+
+    float energy =
+        (wave1 + wave2) * 0.25 + 0.5;
+
+    float pulse =
+        sin(TIME * 2.0) * 0.5 + 0.5;
+
+    vec3 violet =
+        vec3(0.35, 0.02, 0.75);
+
+    vec3 pink =
+        vec3(1.0, 0.08, 0.55);
+
+    vec3 cyan =
+        vec3(0.0, 0.85, 1.0);
+
+    vec3 finalColor =
+        mix(violet, pink, energy);
+
+    finalColor =
+        mix(
+            finalColor,
+            cyan,
+            pulse * 0.30
+        );
+
+    ALBEDO = finalColor;
+
+    EMISSION =
+        finalColor * (2.2 + pulse);
+}
+`;
+
+celestialBloom.mesh.shader.set(
+    celestialBloomShader
+);
+
+
+// ========================================
+// CELESTIAL BLOOM - FLOATING ORBIT NODES
+// ========================================
+
+const bloomOrbitRadius = 2.25;
+const bloomOrbitNodes = 12;
+
+for (let i = 0; i < bloomOrbitNodes; i++) {
+
+    const angle =
+        (i / bloomOrbitNodes) *
+        Math.PI *
+        2;
+
+    const orbitX =
+        Math.cos(angle) *
+        bloomOrbitRadius;
+
+    const orbitZ =
+        -29.0 +
+        Math.sin(angle) *
+        bloomOrbitRadius;
+
+    // Creates a wave instead of a perfectly flat ring
+    const orbitY =
+        6.2 +
+        Math.sin(angle * 2) *
+        0.65;
+
+    const bloomNode = spawnPrimitive.sphere(
+        16,
+        10,
+        new Vector3(
+            orbitX,
+            orbitY,
+            orbitZ
+        ),
+        0.22,
+        Quaternion.one,
+        new Color(1.0, 0.12, 0.60),
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+
+    bloomNode.mesh.material.emissionColor.set(
+        new Color(1.0, 0.12, 0.60)
+    );
+
+    bloomNode.mesh.material.emissionStrength.set(5);
+}
 }
