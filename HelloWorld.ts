@@ -338,4 +338,31 @@ welcomeText.visible.set(false);
             3000
     );
 });
+     // ========================================
+// PHASE 2 - ENERGY CORE
+// ========================================
+
+const energyCore = spawnPrimitive.sphere(
+    48,
+    32,
+    new Vector3(0, 2.5, 5),
+    1.5,
+    Quaternion.one,
+    new Color(0.12, 0.35, 1),
+    1,
+    "None",
+    "Static",
+    undefined
+);
+
+// Give the sphere a futuristic material
+energyCore.mesh.material.metallic.set(0.75);
+energyCore.mesh.material.roughness.set(0.15);
+
+// Make the sphere self-illuminated
+energyCore.mesh.material.emissionColor.set(
+    new Color(0.08, 0.25, 1)
+);
+
+energyCore.mesh.material.emissionStrength.set(4);    
 }
