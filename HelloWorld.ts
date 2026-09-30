@@ -493,8 +493,8 @@ energyNodeRight.mesh.material.emissionStrength.set(5);
 
 // Main walkway
 const phase2Walkway = spawnPrimitive.cube(
-    new Vector3(0, 0.10, -11),
-    new Vector3(3.0, 0.25, 8.0),
+    new Vector3(0, 0.10, -7),
+    new Vector3(3.0, 0.25, 4.0),
     Quaternion.one,
     new Color(0.018, 0.022, 0.035),
     1,
@@ -767,8 +767,8 @@ createEnergySpire(3.2, -12.0);
 
 // Left illuminated edge
 const walkwayLightLeft = spawnPrimitive.cube(
-    new Vector3(-1.43, 0.28, -11),
-    new Vector3(0.06, 0.06, 8.0),
+    new Vector3(-1.43, 0.28, -7),
+    new Vector3(0.06, 0.06, 4.0),
     Quaternion.one,
     new Color(0.05, 0.25, 1),
     1,
