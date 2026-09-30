@@ -285,7 +285,32 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
     );
 
     enterButtonText.text.doubleSided.set(true);
+        
+const welcomeText = new Entity(
+    new Vector3(0, 1.65, -6.58),
+    Quaternion.one,
+    new Vector3(0.10, 0.10, 0.10),
+    undefined,
+    "Static"
+);
 
+welcomeText.text.create(
+    "WELCOME TO METAVERSE INSPIRED",
+    20,
+    1
+);
+
+welcomeText.text.color.set(
+    new Color(1, 0.25, 0)
+);
+
+welcomeText.text.outline.color.set(
+    new Color(0, 0, 0)
+);
+
+welcomeText.text.doubleSided.set(true);
+
+welcomeText.visible.set(false);
     enterButton.rayClick.initialize(false);
 
     enterButton.rayClick.setClickFunction(() => {
@@ -301,32 +326,6 @@ SkyDome.ambientLight.skyColorContribution.set(0.15);
     );
 
     welcomeText.visible.set(true);
-        
-    const welcomeText = new Entity(
-        new Vector3(0, 1.65, -6.58),
-        Quaternion.one,
-        new Vector3(0.10, 0.10, 0.10),
-        undefined,
-        "Static"
-    );
-
-    welcomeText.text.create(
-        "WELCOME TO METAVERSE INSPIRED",
-        20,
-        1
-    );
-
-    welcomeText.text.color.set(
-        new Color(1, 0.25, 0)
-    );
-
-    welcomeText.text.outline.color.set(
-        new Color(0, 0, 0)
-    );
-
-    welcomeText.text.doubleSided.set(true);
-
-    welcomeText.visible.set(false);
 
         const orangeParticles =
             DefaultParticles.getColoredWaterFountainParticlesProperties(
