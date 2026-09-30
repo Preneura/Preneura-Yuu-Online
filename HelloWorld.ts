@@ -490,7 +490,7 @@ import { grabbable } from "./Yuu API/Grabbable";
         
             EMISSION =
                 finalColor * (1.8 + pulse);
-        }
+    }
         `;
     
         energyNodeLeft.mesh.shader.set(
@@ -695,7 +695,7 @@ import { grabbable } from "./Yuu API/Grabbable";
         
             ALBEDO = finalColor;
             EMISSION = finalColor * 2.2;
-        }
+    }
         `;
         function createEnergySpire(x: number, z: number) {
     
@@ -786,7 +786,7 @@ import { grabbable } from "./Yuu API/Grabbable";
         
             ALBEDO = finalColor;
             EMISSION = finalColor * 2.5;
-        }
+    }
         `;
     
         const haloRadius = 3.0;
@@ -824,7 +824,7 @@ import { grabbable } from "./Yuu API/Grabbable";
             haloPiece.mesh.shader.set(
                 haloShader
             );
-        }
+    }
     
         const energyCrystal = spawnPrimitive.cone(
             6,
@@ -880,7 +880,7 @@ import { grabbable } from "./Yuu API/Grabbable";
         
             EMISSION =
                 finalColor * (2.0 + pulse);
-        }
+    }
         `;
         
         energyCrystal.mesh.shader.set(
@@ -1160,4 +1160,105 @@ import { grabbable } from "./Yuu API/Grabbable";
     
         bridgeEnergyCore.mesh.material.emissionStrength.set(6);
     }
+    
+    const impossibleIsland = spawnPrimitive.cylinder(
+        32,
+        new Vector3(0, 0.35, -29.0),
+        6.8,
+        Quaternion.one,
+        new Color(0.025, 0.018, 0.045),
+        1,
+        true,
+        "Static",
+        undefined
+    );
+    
+    impossibleIsland.scale = new Vector3(
+        1.0,
+        0.35,
+        1.0
+    );
+    
+    impossibleIsland.mesh.material.metallic.set(0.35);
+    impossibleIsland.mesh.material.roughness.set(0.38);
+        
+    const islandUnderside = spawnPrimitive.cone(
+        24,
+        new Vector3(0, -1.35, -29.0),
+        6.2,
+        Quaternion.one,
+        new Color(0.012, 0.008, 0.025),
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+    
+    islandUnderside.scale = new Vector3(
+        1.0,
+        1.7,
+        1.0
+    );
+    
+    islandUnderside.mesh.material.metallic.set(0.20);
+    islandUnderside.mesh.material.roughness.set(0.55);
+    
+    const islandHeart = spawnPrimitive.sphere(
+        32,
+        20,
+        new Vector3(0, -1.25, -29.0),
+        0.75,
+        Quaternion.one,
+        new Color(1.0, 0.10, 0.55),
+        1,
+        "None",
+        "Static",
+        undefined
+    );
+    
+    islandHeart.mesh.material.emissionColor.set(
+        new Color(1.0, 0.10, 0.55)
+    );
+    
+    islandHeart.mesh.material.emissionStrength.set(7);
+    
+    const islandHeartShader = `
+    shader_type spatial;
+    
+    render_mode unshaded;
+    
+    void fragment() {
+    
+        float pulse =
+            sin(TIME * 3.5) * 0.5 + 0.5;
+    
+        float flow =
+            sin(
+                UV.y * 22.0 +
+                UV.x * 14.0 -
+                TIME * 4.0
+            ) * 0.5 + 0.5;
+    
+        vec3 purple =
+            vec3(0.30, 0.01, 0.45);
+    
+        vec3 pink =
+            vec3(1.0, 0.05, 0.55);
+    
+        vec3 finalColor =
+            mix(purple, pink, flow);
+    
+        finalColor +=
+            pink * pulse * 0.30;
+    
+        ALBEDO = finalColor;
+    
+        EMISSION =
+            finalColor * (2.0 + pulse);
+}
+    `;
+    
+    islandHeart.mesh.shader.set(
+        islandHeartShader
+    );
 }
