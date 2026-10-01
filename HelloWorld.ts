@@ -1279,24 +1279,6 @@ impossibleGardenFloor.mesh.shader.set(
 
 impossibleIsland.visible.set(false);
 impossibleIsland.collidable.set(false);
-    // ========================================
-// IMPOSSIBLE GARDEN - LIVING FLOOR
-// ========================================
-
-const impossibleGardenFloor = spawnPrimitive.cube(
-    new Vector3(0, 0.52, -29.0),
-    new Vector3(8.5, 0.18, 7.5),
-    Quaternion.one,
-    new Color(0.008, 0.003, 0.018),
-    1,
-    true,
-    "Static",
-    undefined
-);
-
-impossibleGardenFloor.mesh.shader.set(
-    impossibleIslandShader
-);
         
     const islandUnderside = spawnPrimitive.cone(
         24,
