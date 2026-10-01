@@ -1371,7 +1371,10 @@ function createLuminousFlower(
     color: Color
 ) {
 
-    // Dark metallic stem
+    // ========================================
+    // ALIEN STEM
+    // ========================================
+
     const stem = spawnPrimitive.cone(
         16,
         new Vector3(
@@ -1379,35 +1382,40 @@ function createLuminousFlower(
             0.55 + height / 2,
             z
         ),
-        0.18,
+        0.16 * size,
         Quaternion.one,
         new Color(0.025, 0.018, 0.045),
         1,
-        false,
+        "None",
         "Static",
         undefined
     );
 
     stem.scale = new Vector3(
-        size,
+        0.75,
         height,
-        size
+        0.75
     );
 
     stem.mesh.material.metallic.set(0.45);
     stem.mesh.material.roughness.set(0.30);
 
 
-    // Glowing flower core
+    // ========================================
+    // GLOWING FLOWER CORE
+    // ========================================
+
+    const flowerY = 0.65 + height;
+
     const flowerCore = spawnPrimitive.sphere(
         24,
         16,
         new Vector3(
             x,
-            0.65 + height,
+            flowerY,
             z
         ),
-        0.42 * size,
+        0.38 * size,
         Quaternion.one,
         color,
         1,
@@ -1417,60 +1425,103 @@ function createLuminousFlower(
     );
 
     flowerCore.mesh.material.emissionColor.set(color);
-    flowerCore.mesh.material.emissionStrength.set(6);
+    flowerCore.mesh.material.emissionStrength.set(7);
 
-    const petalDistance = 0.55 * size;
+
+    // ========================================
+    // ALIEN PETALS
+    // ========================================
+
+    const petalDistance = 0.48 * size;
 
     const petalPositions = [
         new Vector3(
             x + petalDistance,
-            0.65 + height,
+            flowerY + 0.08 * size,
             z
         ),
 
         new Vector3(
             x - petalDistance,
-            0.65 + height,
+            flowerY + 0.08 * size,
             z
         ),
 
         new Vector3(
             x,
-            0.65 + height,
+            flowerY - 0.04 * size,
             z + petalDistance
         ),
 
         new Vector3(
             x,
-            0.65 + height,
+            flowerY - 0.04 * size,
             z - petalDistance
+        ),
+
+        new Vector3(
+            x + petalDistance * 0.70,
+            flowerY + 0.20 * size,
+            z + petalDistance * 0.70
+        ),
+
+        new Vector3(
+            x - petalDistance * 0.70,
+            flowerY + 0.20 * size,
+            z - petalDistance * 0.70
         )
     ];
 
-    for (const petalPosition of petalPositions) {
+    for (let i = 0; i < petalPositions.length; i++) {
 
-        const petal = spawnPrimitive.sphere(
-            16,
-            10,
-            petalPosition,
-            0.30 * size,
+        const petal = spawnPrimitive.cone(
+            12,
+            petalPositions[i],
+            0.46 * size,
             Quaternion.one,
             color,
-            0.45,
+            0.72,
             "None",
             "Static",
             undefined
         );
 
         petal.scale = new Vector3(
-            1.8,
-            0.45,
-            1.0
+            0.65,
+            1.25 + (i % 2) * 0.30,
+            0.65
         );
 
         petal.mesh.material.emissionColor.set(color);
-        petal.mesh.material.emissionStrength.set(3);
+        petal.mesh.material.emissionStrength.set(4);
+        petal.mesh.material.metallic.set(0.15);
+        petal.mesh.material.roughness.set(0.20);
     }
+
+
+    // ========================================
+    // FLOATING LIGHT ABOVE FLOWER
+    // ========================================
+
+    const flowerLight = spawnPrimitive.sphere(
+        16,
+        12,
+        new Vector3(
+            x,
+            flowerY + 0.65 * size,
+            z
+        ),
+        0.12 * size,
+        Quaternion.one,
+        color,
+        0.85,
+        "None",
+        "Static",
+        undefined
+    );
+
+    flowerLight.mesh.material.emissionColor.set(color);
+    flowerLight.mesh.material.emissionStrength.set(8);
 }
 
     createLuminousFlower(
