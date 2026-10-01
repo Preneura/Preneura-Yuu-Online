@@ -8,7 +8,6 @@ import { SkyDome } from "./Yuu API/SkyDome";
 import { Entity } from "./Yuu API/Entity";
 import { DefaultParticles } from "./Yuu API/Particles/DefaultParticles";
 import { PlayParticles } from "./Yuu API/Particles/PlayParticles";
-import { grabbable } from "./Yuu API/Grabbable";
 
     registerStart(start);
     
@@ -886,25 +885,7 @@ import { grabbable } from "./Yuu API/Grabbable";
         energyCrystal.mesh.shader.set(
             energyCrystalShader
         );
-    
-        grabbable.make(
-            energyCrystal,
-            0.2,
-            {
-                onGrab: (hand) => {
-                    console.log(
-                        hand + " hand grabbed the Energy Crystal"
-                    );
-                },
-        
-                onRelease: (hand) => {
-                    console.log(
-                        hand + " hand released the Energy Crystal"
-                    );
-                }
-            }
-        );
-       
+           
     const crystalPedestalBase = spawnPrimitive.cone(
         32,
         new Vector3(0, 0.45, -16.5),
