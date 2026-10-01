@@ -1162,6 +1162,101 @@ import { PlayParticles } from "./Yuu API/Particles/PlayParticles";
     
     impossibleIsland.mesh.material.metallic.set(0.35);
     impossibleIsland.mesh.material.roughness.set(0.38);
+
+    // ========================================
+// IMPOSSIBLE ISLAND - LIVING SURFACE SHADER
+// ========================================
+
+const impossibleIslandShader = `
+shader_type spatial;
+
+render_mode unshaded;
+
+void fragment() {
+
+    vec2 centeredUV =
+        UV - vec2(0.5);
+
+    float distanceFromCenter =
+        length(centeredUV);
+
+    // Flowing organic energy patterns
+    float flow1 =
+        sin(
+            UV.x * 24.0 +
+            UV.y * 18.0 +
+            TIME * 1.8
+        );
+
+    float flow2 =
+        sin(
+            UV.x * -17.0 +
+            UV.y * 30.0 -
+            TIME * 1.4
+        );
+
+    float veins =
+        (flow1 + flow2) * 0.5;
+
+    veins =
+        smoothstep(
+            0.55,
+            0.90,
+            veins
+        );
+
+    // Slow breathing pulse
+    float pulse =
+        sin(TIME * 1.5) * 0.5 + 0.5;
+
+    vec3 darkSurface =
+        vec3(0.008, 0.003, 0.018);
+
+    vec3 deepPurple =
+        vec3(0.18, 0.015, 0.35);
+
+    vec3 magenta =
+        vec3(1.0, 0.03, 0.45);
+
+    vec3 finalColor =
+        darkSurface;
+
+    finalColor +=
+        deepPurple *
+        veins *
+        0.75;
+
+    finalColor +=
+        magenta *
+        veins *
+        pulse *
+        0.40;
+
+    // Slight glow toward island center
+    float centerGlow =
+        1.0 -
+        smoothstep(
+            0.0,
+            0.65,
+            distanceFromCenter
+        );
+
+    finalColor +=
+        deepPurple *
+        centerGlow *
+        0.20;
+
+    ALBEDO = finalColor;
+
+    EMISSION =
+        finalColor *
+        (0.8 + pulse * 0.45);
+}
+`;
+
+impossibleIsland.mesh.shader.set(
+    impossibleIslandShader
+);
         
     const islandUnderside = spawnPrimitive.cone(
         24,
