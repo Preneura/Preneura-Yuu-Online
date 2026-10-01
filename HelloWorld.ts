@@ -905,7 +905,7 @@ import { grabbable } from "./Yuu API/Grabbable";
             }
         );
        
-    const crystalPedestalBase = spawnPrimitive.cylinder(
+    const crystalPedestalBase = spawnPrimitive.cone(
         32,
         new Vector3(0, 0.45, -16.5),
         1.35,
@@ -926,7 +926,7 @@ import { grabbable } from "./Yuu API/Grabbable";
     crystalPedestalBase.mesh.material.metallic.set(0.85);
     crystalPedestalBase.mesh.material.roughness.set(0.18);
         
-    const pedestalEnergyRing = spawnPrimitive.cylinder(
+    const pedestalEnergyRing = spawnPrimitive.cone(
         32,
         new Vector3(0, 0.72, -16.5),
         1.05,
@@ -950,7 +950,7 @@ import { grabbable } from "./Yuu API/Grabbable";
     
     pedestalEnergyRing.mesh.material.emissionStrength.set(6);
         
-    const crystalPedestalTop = spawnPrimitive.cylinder(
+    const crystalPedestalTop = spawnPrimitive.cone(
         32,
         new Vector3(0, 0.82, -16.5),
         0.78,
@@ -1161,7 +1161,7 @@ import { grabbable } from "./Yuu API/Grabbable";
         bridgeEnergyCore.mesh.material.emissionStrength.set(6);
     }
     
-    const impossibleIsland = spawnPrimitive.cylinder(
+    const impossibleIsland = spawnPrimitive.cone(
         32,
         new Vector3(0, 0.35, -29.0),
         6.8,
@@ -1274,7 +1274,7 @@ function createLuminousFlower(
 ) {
 
     // Dark metallic stem
-    const stem = spawnPrimitive.cylinder(
+    const stem = spawnPrimitive.cone(
         16,
         new Vector3(
             x,
